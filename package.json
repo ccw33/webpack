@@ -9,5 +9,9 @@
   },
   "devDependencies": {
     "vue-cli": "^2.8.1"
+  },
+  "dependencies": {
+    "less": "^3.7.1",
+    "less-loader": "^4.1.0"
   }
 }
