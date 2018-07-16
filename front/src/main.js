@@ -10,6 +10,8 @@ require('bootstrap');
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/css/bootstrap-theme.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
+import Promise from 'es6-promise'
+Promise.polyfill()
 
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;

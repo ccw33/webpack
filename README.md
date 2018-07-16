@@ -64,3 +64,9 @@ You can fork this repo to create your own boilerplate, and use it with `vue-cli`
 ``` bash
 vue init username/repo my-project
 ```
+
+# ADD
+## Promise支持
+https://blog.csdn.net/violetjack0808/article/details/73740301
+依赖已经装好，只需全局安装 phantomjs（如果出现找不到promise再装）
+npm install -g phantomjs

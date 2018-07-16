@@ -105,6 +105,7 @@
       submit() {
 
         const vm = this;
+        // 验证
         let is_ok = true;
         for (let key in vm.lan_data) {
           let times = 0;
@@ -113,7 +114,7 @@
           }
           vm.lan_data[key].split('.').forEach((val, index, arr) => {
             // debugger;
-            if (!(0 <= Number(val) && Number(val) <= 255)) {
+            if ( val && !(0 <= Number(val) && Number(val) <= 255)) {
               $(`#${key}`).parents('.form-group').addClass('has-error');
               $(`#${key}`).parents('.form-group').find('.help-block').show();
               is_ok=false;

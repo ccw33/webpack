@@ -60,9 +60,10 @@
     mounted() {
       let vm = this;
       // $.get(`${vm.host}/get_lans`,
-      // function (resp) {
-      //   vm.lans = resp.data;
-      // });
+      //   function (resp) {
+      //     vm.lans = resp;
+      //     vm.lan_data = vm.lans[0];
+      //   });
 
       vm.$ajax.get(`${vm.host}/get_lans`)
         .then(resp => {
