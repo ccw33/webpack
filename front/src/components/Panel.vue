@@ -11,7 +11,14 @@
         <a
           href="#">{{item.lan}}</a></li>
     </ul>
-    <v_tab :lan_data="lan_data"></v_tab>
+    <transition enter-active-class="animated bounceInLeft"
+                leave-active-class="animated bounceOutRight">
+      <template v-if="lan_data">    <!-- 保证v_lan组件在获取lan_data之后再渲染 -->
+        <keep-alive>
+          <v_tab :lan_data="lan_data"></v_tab>
+        </keep-alive>
+      </template>
+    </transition>
   </div>
 </template>
 
@@ -34,15 +41,7 @@
             'DNS': ''
           },
         ],
-        lan_data: {
-          'lan': '',
-          'isActive': true,
-          'is_auto': false,
-          'ip': '',
-          'subnet_mask': '',
-          'gateway': '',
-          'DNS': ''
-        },
+        lan_data: ''
       }
     },
     methods: {
@@ -57,7 +56,7 @@
         $(selector).hide();
       }
     },
-    mounted() {
+    beforeCreate() {
       let vm = this;
       // $.get(`${vm.host}/get_lans`,
       //   function (resp) {
@@ -74,7 +73,6 @@
         vm.lan_data = vm.lans[0];
       });
     },
-
   }
 </script>
 
