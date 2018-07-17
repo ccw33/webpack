@@ -8,7 +8,22 @@ import App from './App'
 import router from './router'
 {{/router}}
 
-Vue.config.productionTip = false
+
+import axios from 'axios'
+import qs from 'qs'
+require('jquery');
+require('bootstrap');
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap-theme.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
+import Promise from 'es6-promise'
+import 'animate.css'
+Promise.polyfill()
+
+Vue.prototype.$ajax = axios;
+Vue.prototype.$qs = qs;
+Vue.config.productionTip = false;
+Vue.prototype.host='http://172.16.125.67:5000';
 
 /* eslint-disable no-new */
 new Vue({
