@@ -13,7 +13,8 @@ import 'bootstrap/dist/css/bootstrap-theme.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import Promise from 'es6-promise'
 import 'animate.css'
-Promise.polyfill()
+Promise.polyfill();
+import '../static/font-awesome-4.7.0/css/font-awesome.min.css'
 
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;

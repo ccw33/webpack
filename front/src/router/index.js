@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Panel from '@/components/Panel'
+import Wifi from '@/components/Wifi'
 
 Vue.use(Router)
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/',
       name: 'Panel',
       component: Panel
+    },
+    {
+      path: '/wifi',
+      name: 'Wifi',
+      component: Wifi
     }
   ]
 })

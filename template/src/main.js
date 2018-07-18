@@ -19,11 +19,14 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import Promise from 'es6-promise'
 import 'animate.css'
 Promise.polyfill()
+import '../static/font-awesome-4.7.0/css/font-awesome.min.css'
+
 
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;
 Vue.config.productionTip = false;
 Vue.prototype.host='http://172.16.125.67:5000';
+
 
 /* eslint-disable no-new */
 new Vue({
