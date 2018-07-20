@@ -15,11 +15,16 @@ import Promise from 'es6-promise'
 import 'animate.css'
 Promise.polyfill();
 import '../static/font-awesome-4.7.0/css/font-awesome.min.css'
+import '../static/css/wifi.css'
+import '../static/Hover-master/css/hover-min.css'
+import '../static/css/base.css'
+import conf from './config'
 
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;
 Vue.config.productionTip = false;
-Vue.prototype.host='http://172.16.125.67:5000';
+Vue.prototype.host=conf.host;
 
 /* eslint-disable no-new */
 new Vue({

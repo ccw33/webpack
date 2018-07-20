@@ -53,13 +53,13 @@
 
 
     <fieldset>
-      <!--DNS-->
+      <!--dns-->
       <div class="form-group">
-        <label for="DNS" class="col-xs-2 control-label">DNS</label>
+        <label for="dns" class="col-xs-2 control-label">DNS</label>
         <div class="col-xs-10">
-          <input type="text" class="form-control" id="DNS" name="DNS" :placeholder="lan.dns"
+          <input type="text" class="form-control" id="dns" name="dns" :placeholder="lan.dns"
                  v-model="lan.dns">
-          <span class="help-block">DNS样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
+          <span class="help-block">dns样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
         </div>
       </div>
     </fieldset>
@@ -115,8 +115,9 @@
             continue;
           }
           vm.lan[key].split('.').forEach((val, index, arr) => {
-            if (key == 'DNS') {
+            if (key == 'dns') {
               if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
+                debugger
                 $(`#${key}`).parents('.form-group').addClass('has-error');
                 $(`#${key}`).parents('.form-group').find('.help-block').show();
                 is_ok = false;
@@ -126,9 +127,10 @@
                 times++;
               }
             } else {
-              if (vm.lan.is_auto == 'false') {
+              if (!vm.lan.is_auto) {
                 // 如果不是自动就验证
                 if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
+                  debugger
                   $(`#${key}`).parents('.form-group').addClass('has-error');
                   $(`#${key}`).parents('.form-group').find('.help-block').show();
                   is_ok = false;

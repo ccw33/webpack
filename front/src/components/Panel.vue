@@ -38,7 +38,7 @@
             'ip': '',
             'subnet_mask': '',
             'gateway': '',
-            'DNS': ''
+            'dns': ''
           },
         ],
         lan_data: ''
@@ -66,6 +66,7 @@
 
       vm.$ajax.get(`${vm.host}/get_lans`)
         .then(resp => {
+          debugger
           vm.lans = resp.data;
         }).catch(error => {
         $('.alert-danger').show();

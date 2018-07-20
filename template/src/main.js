@@ -1,3 +1,5 @@
+import conf from "../../front/src/config";
+
 {{#if_eq build "standalone"}}
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
@@ -20,12 +22,15 @@ import Promise from 'es6-promise'
 import 'animate.css'
 Promise.polyfill()
 import '../static/font-awesome-4.7.0/css/font-awesome.min.css'
+import '../static/Hover-master/css/hover-min.css'
+import '../static/css/base.css'
+import conf from './config'
 
 
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;
 Vue.config.productionTip = false;
-Vue.prototype.host='http://172.16.125.67:5000';
+Vue.prototype.host=conf.host;
 
 
 /* eslint-disable no-new */
