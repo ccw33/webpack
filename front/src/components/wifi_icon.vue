@@ -4,7 +4,7 @@
     <span class="wifi-2"></span>
     <span class="wifi-3"></span>
     <span class="wifi-4"></span>
-    <span v-if="isLock" class="lock"></span>
+    <span v-if="wifi.is_lock" class="lock"></span>
   </span>
 </template>
 
@@ -15,33 +15,29 @@
     name: 'wifi_icon',
     components: {},
     prop: {
-      is_lock: {
-        type: Boolean,
+      wifi_data: {
+        type: Object,
         required: true,
-        validator: function (value) {
-          return true;
-        }
-      },
-      strength: {
-        type: Number,
-        required: true,
-        validator: function (value) {
-          return true;
+        validator(value) {
+          let template = {
+            is_lock: true,
+            strength: 1,
+          };
+          return utils.validator(value, template, 'wifi_data')
         }
       },
     },
     data() {
-      return {}
+      return {
+        wifi:this.$attrs.wifi_data
+      }
     },
     computed: {
       // isLock() {
-      //   return this.$attrs.is_lock ? 'strength-ready' : 'strength-no'
+      //   return this.wifi.is_lock ? 'strength-ready' : 'strength-no'
       // },
-      isLock() {
-        return this.$attrs.is_lock
-      },
       strengthLevel() {
-        return `strength-${this.$attrs.strength}`
+        return `strength-${this.wifi.strength}`
       }
     },
     methods: {},
@@ -68,6 +64,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   /*.wifi-icon {*/
-    /*transform: scale(0.8);*/
+  /*transform: scale(0.8);*/
   /*}*/
 </style>

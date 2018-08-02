@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div class="alert alert-danger alert-dismissible" role="alert">
-      <button type="button" class="close" aria-label="Close"><span @click="hide('.alert-danger')"
-                                                                   aria-hidden="true">&times;</span></button>
-      <strong>Warning!</strong> Better check yourself, you're not looking too good.
-    </div>
-
+    <v_alert :alert="alert" @hide_success="alert.success.is_show=false" @hide_fail="alert.fail.is_show=false"></v_alert>
     <ul class="nav nav-tabs">
       <li role="presentation" v-for="(item, index) in lans" :class="{'active':item.isActive}" @click="activate(index)">
         <a
@@ -15,7 +10,8 @@
                 leave-active-class="animated bounceOutRight">
       <template v-if="lan_data">    <!-- 保证v_lan组件在获取lan_data之后再渲染 -->
         <keep-alive>
-          <v_tab :lan_data="lan_data"></v_tab>
+          <v_tab :lan_data="lan_data" v-on:success="show('#change_setting_succeed')"
+                 v-on:fail="show('#change_setting_failed')"></v_tab>
         </keep-alive>
       </template>
     </transition>
@@ -38,10 +34,21 @@
             'ip': '',
             'subnet_mask': '',
             'gateway': '',
-            'dns': ''
+            'dns': '',
+            'mac': ''
           },
         ],
-        lan_data: ''
+        lan_data: '',
+        alert: {
+          success: {
+            message: '',
+            is_show: false,
+          },
+          fail: {
+            message: '获取配置失败',
+            is_show: false,
+          }
+        }
       }
     },
     methods: {
@@ -52,9 +59,6 @@
         this.lans[index].isActive = true;
         this.lan_data = this.lans[index];
       },
-      hide(selector) {
-        $(selector).hide();
-      }
     },
     beforeCreate() {
       let vm = this;
@@ -66,10 +70,10 @@
 
       vm.$ajax.get(`${vm.host}/get_lans`)
         .then(resp => {
-          debugger
           vm.lans = resp.data;
         }).catch(error => {
-        $('.alert-danger').show();
+        console.error(`SERVER----------:${error.response.data.content}`);
+        vm.alert.fail.is_show = true;
       }).finally(() => {
         vm.lan_data = vm.lans[0];
       });
@@ -78,13 +82,3 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-  .alert-danger {
-    position: absolute;
-    right: 3rem;
-    top: 10rem;
-    display: none;
-    z-index: 9999;
-  }
-
-</style>

@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    <v_alert :alert="alert" @hide_success="alert.success.is_show=false" @hide_fail="alert.fail.is_show=false"></v_alert>
     <!--<div class="clearfix"></div>-->
     <section>
       <i class="fa fa-wifi fa-5x"></i>
@@ -8,7 +9,8 @@
 
     <section>
       <label for="password">密码：</label>
-      <input :type="password_type" class="form-control" id="password" placeholder="Password">
+      <input :type="password_type" class="form-control" id="password"
+             placeholder="Password">
     </section>
 
     <section class="checkbox">
@@ -16,12 +18,12 @@
         <input type="checkbox" v-model="pwd_is_show"> 显示密码
       </label>
       <label>
-        <input type="checkbox"> 记住该网络
+        <input type="checkbox" v-model="wifi.remember_pwd"> 记住该网络
       </label>
     </section>
     <section>
       <button type="button" class="btn btn-default btn-xs"> 取消</button>
-      <button type="button" class="btn btn-primary btn-xs"> 加入</button>
+      <button type="button" class="btn btn-primary btn-xs" @click="submit"> 加入</button>
     </section>
   </div>
 </template>
@@ -32,33 +34,66 @@
   export default {
     name: 'wifi_connect_win',
     components: {},
-    prop: {
-      wifi: {
-        type: Object,
-        required: true,
-        validator: function (value) {
-          return true;
-        }
-      },
-    },
+    // prop: {
+    //   wifi: {
+    //     type: Object,
+    //     required: true,
+    //     validator: function (value) {
+    //       let template = {
+    //         name: '别连我dsfasefwagewt',
+    //         is_lock: true,
+    //         key_type: 'WPA2',
+    //         strength: 1,
+    //         password: ''};
+    //       return utils.validate_template(value,template,'wifi');
+    //     }
+    //   },
+    // },
     data() {
       return {
         wifi: {
-          name: '别连我dsfasefwagewt',
+          name: '',
           is_lock: true,
-          key_type: 'WPA2',
-          strength: 1,
+          key_type: '',
+          strength: 0,
+          password: '',
+          remember_pwd: false,
         },
-        pwd_is_show:false
+        pwd_is_show: false,
+
+        alert: {
+          success: {
+            message: '连接wifi成功',
+            is_show: false,
+          },
+          fail: {
+            message: '连接wifi失败',
+            is_show: false,
+          }
+        }
       }
     },
     computed: {
-      password_type(){
-        return this.pwd_is_show?'text':'password'
+      password_type() {
+        return this.pwd_is_show ? 'text' : 'password'
       }
     },
-    methods: {},
-    beforeCreate() {
+    methods: {
+      submit() {
+        const vm = this;
+        vm.wifi.password = $('#password').val();
+        vm.$ajax.post(
+          `${vm.host}/connect_wifi`,
+          vm.$qs.stringify(vm.wifi),
+        ).then(resp => {
+          vm.alert.success.is_show = true;
+        }).catch(error => {
+          console.error(`SERVER----------:${error.response.data.content}`);
+          vm.alert.fail.is_show = true;
+        })
+      }
+    },
+    mounted() {
       let vm = this;
       // // $.get(`${vm.host}/get_lans`,
       // //   function (resp) {
@@ -74,6 +109,21 @@
       // }).finally(() => {
       //   vm.lan_data = vm.lans[0];
       // });
+      let kv_list = window.location.search.replace('?', '').split('&');
+      for (let index in kv_list) {
+        let k = kv_list[index].split('=')[0];
+        let v = kv_list[index].split('=')[1];
+        if (k == 'is_lock' || k == 'strength' || k == 'remember_pwd') {
+          v = JSON.parse(v);
+        }
+        if (k == 'name') {
+          v = decodeURI(v)
+        }
+        vm.wifi[k] = v;
+      }
+      if (vm.wifi.remember_pwd) {
+        $('#password').val(vm.wifi.password);
+      }
     },
   }
 </script>

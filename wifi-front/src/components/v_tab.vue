@@ -1,7 +1,5 @@
 <template>
   <form class="form-horizontal">
-    <v_alert :alert="alert" @hide_success="alert.success.is_show=false" @hide_fail="alert.fail.is_show=false"></v_alert>
-
     <!--是否自动获得ip-->
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
@@ -51,14 +49,17 @@
           <span class="help-block">网关样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
         </div>
       </div>
+    </fieldset>
 
-      <!--dns-->
+
+    <fieldset>
+      <!--DNS-->
       <div class="form-group">
-        <label for="dns" class="col-xs-2 control-label">DNS</label>
+        <label for="DNS" class="col-xs-2 control-label">DNS</label>
         <div class="col-xs-10">
-          <input type="text" class="form-control" id="dns" name="dns" :placeholder="lan.dns"
+          <input type="text" class="form-control" id="DNS" name="DNS" :placeholder="lan.dns"
                  v-model="lan.dns">
-          <span class="help-block">dns样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
+          <span class="help-block">DNS样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
         </div>
       </div>
     </fieldset>
@@ -72,8 +73,8 @@
         <input type="button" class="btn btn-default" value="重置" @click="reset()"/>
       </div>
     </div>
-  </form>
 
+  </form>
 </template>
 
 <script>
@@ -83,41 +84,6 @@
       newobj[attr] = obj[attr];
     }
     return newobj;
-  }
-
-  function normal_validate(vm, key, times, is_ok) {
-    vm.lan[key].split('.').forEach((val, index, arr) => {
-      // if (key == 'dns') {
-      //   if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
-      //     debugger
-      //     $(`#${key}`).parents('.form-group').addClass('has-error');
-      //     $(`#${key}`).parents('.form-group').find('.help-block').show();
-      //     is_ok = false;
-      //   } else {
-      //     $(`#${key}`).parents('.form-group').removeClass('has-error');
-      //     $(`#${key}`).parents('.form-group').find('.help-block').hide();
-      //     times++;
-      //   }
-      // } else {
-      if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
-        debugger
-        $(`#${key}`).parents('.form-group').addClass('has-error');
-        $(`#${key}`).parents('.form-group').find('.help-block').show();
-        is_ok = false;
-      } else {
-        $(`#${key}`).parents('.form-group').removeClass('has-error');
-        $(`#${key}`).parents('.form-group').find('.help-block').hide();
-        times++;
-      }
-      // }
-    });
-    if (times < 4) {
-      $(`#${key}`).parents('.form-group').addClass('has-error');
-      $(`#${key}`).parents('.form-group').find('.help-block').show();
-      is_ok = false
-    }
-
-    return is_ok
   }
 
   let old_data = {};
@@ -135,17 +101,7 @@
     },
     data() {
       return {
-        lan: this.lan_data,
-        alert: {
-          success: {
-            message: '修改配置成功',
-            is_show: false,
-          },
-          fail: {
-            message: '修改配置失败',
-            is_show: false,
-          }
-        }
+        lan: this.lan_data
       }
     },
     methods: {
@@ -153,37 +109,49 @@
         const vm = this;
         // 验证
         let is_ok = true;
-        if (!vm.lan.is_auto) {
-          for (let key in vm.lan) {
-            let times = 0;
-            if (key == 'lan' || key == 'is_auto' || key == 'isActive' || key == 'mac' || key == 'id') {
-              continue;
-            }
-            if (key == 'subnet_mask') {
-              if (Number(vm.lan[key])) {
-                if (Number(vm.lan[key]) >= 0 && Number(vm.lan[key]) <= 32) {
-                  $(`#${key}`).parents('.form-group').removeClass('has-error');
-                  $(`#${key}`).parents('.form-group').find('.help-block').hide();
-                }
-                else {
-                  $(`#${key}`).parents('.form-group').addClass('has-error');
-                  $(`#${key}`).parents('.form-group').find('.help-block').show();
-                }
+        for (let key in vm.lan) {
+          let times = 0;
+          if (key == 'lan' || key == 'is_auto' || key == 'isActive') {
+            continue;
+          }
+          vm.lan[key].split('.').forEach((val, index, arr) => {
+            if (key == 'DNS') {
+              if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
+                $(`#${key}`).parents('.form-group').addClass('has-error');
+                $(`#${key}`).parents('.form-group').find('.help-block').show();
+                is_ok = false;
               } else {
-                is_ok = normal_validate(vm, key, times, is_ok)
+                $(`#${key}`).parents('.form-group').removeClass('has-error');
+                $(`#${key}`).parents('.form-group').find('.help-block').hide();
+                times++;
               }
             } else {
-              is_ok = normal_validate(vm, key, times, is_ok)
+              if (vm.lan.is_auto == 'false') {
+                // 如果不是自动就验证
+                if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
+                  $(`#${key}`).parents('.form-group').addClass('has-error');
+                  $(`#${key}`).parents('.form-group').find('.help-block').show();
+                  is_ok = false;
+                } else {
+                  $(`#${key}`).parents('.form-group').removeClass('has-error');
+                  $(`#${key}`).parents('.form-group').find('.help-block').hide();
+                  times++;
+                }
+              } else {
+                // 如果是自动就清空
+                vm.lan.ip = '';
+                vm.lan.subnet_mask = '';
+                vm.lan.gateway = '';
+              }
             }
+          });
+          if (times < 4) {
+            $(`#${key}`).parents('.form-group').addClass('has-error');
+            $(`#${key}`).parents('.form-group').find('.help-block').show();
+            is_ok = false
           }
-        }
-        else {
-          vm.lan.ip = '';
-          vm.lan.subnet_mask = '';
-          vm.lan.gateway = '';
-          vm.lan.dns = '';
-        }
 
+        }
 
         // 提交
         if (!is_ok) {
@@ -193,11 +161,13 @@
           `${vm.host}/save_lan`,
           vm.$qs.stringify(vm.lan),
         ).then(function (response) {
-          vm.alert.success.is_show = true;
-        }).catch(function (error) {
-          console.error(`SERVER----------:${error.response.data.content}`);
-          vm.alert.fail.is_show = true;
-        });
+          debugger;
+          console.log(response);
+        })
+          .catch(function (error) {
+            debugger;
+            console.log(error);
+          });
       },
       reset() {
         this.lan = copy(this.old_data);

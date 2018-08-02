@@ -7,7 +7,7 @@
         <span class="col-xs-10 text-muted">{{wifi.name}}</span>
         <!--<span class="col-xs-3">{{wifi.is_lock}}</span>-->
         <!--<span class="col-xs-2">{{wifi.strength}}</span>-->
-        <wifi_icon class="col-xs-2" :is_lock="wifi.is_lock" :strength="wifi.strength"></wifi_icon>
+        <wifi_icon class="col-xs-2" :wifi_data="wifi"></wifi_icon>
       </li>
     </ul>
   </div>
@@ -70,14 +70,15 @@
       //     vm.lan_data = vm.lans[0];
       //   });
 
-      // vm.$ajax.get(`${vm.host}/get_lans`)
-      //   .then(resp => {
-      //     vm.lans = resp.data;
-      //   }).catch(error => {
-      //   $('.alert-danger').show();
-      // }).finally(() => {
-      //   vm.lan_data = vm.lans[0];
-      // });
+      vm.$ajax.get(`${vm.host}/get_wifis`)
+        .then(resp => {
+          // vm.wifi_list = resp.data;
+        }).catch(error => {
+        console.error(`SERVER----------:${error.response.data.content}`);
+        $('.alert-danger').show();
+      }).finally(() => {
+        // vm.lan_data = vm.lans[0];
+      });
     },
   }
 </script>
