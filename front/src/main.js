@@ -21,13 +21,17 @@ import '../static/css/wifi.css'
 import '../static/Hover-master/css/hover-min.css'
 import '../static/css/base.css'
 import conf from './config'
-import utils from './utils'
+import utilss from './utils'
+
+var utils = utilss;
+
 
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;
 Vue.config.productionTip = false;
 Vue.prototype.host = conf.host;
+Vue.prototype.utils = utilss;
 
 // 全局注册组件
 import v_alert from '@/common/v_alert';

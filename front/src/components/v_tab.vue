@@ -8,20 +8,20 @@
         <div class="radio">
           <label>
             <input type="radio" name="optionsRadios" id="ip_auto" v-model="lan.is_auto" value="true"
-                   onclick="$('#ip_fieldset').attr({'disabled':'disabled'})">
+                   @click="auto">
             自动获取IP地址
           </label>
         </div>
         <div class="radio">
           <label>
             <input type="radio" name="optionsRadios" id="ip_manual" v-model="lan.is_auto" value="false" checked
-                   onclick="$('#ip_fieldset').removeAttr('disabled')">
+                   @click="not_auto">
             使用下面的IP地址
           </label>
         </div>
       </div>
     </div>
-    <fieldset id="ip_fieldset">
+    <fieldset :id="fieldset_id">
       <!--ip-->
       <div class="form-group">
         <label for="ip" class="col-xs-2 control-label">IP地址</label>
@@ -77,13 +77,6 @@
 </template>
 
 <script>
-  function copy(obj) {
-    var newobj = {};
-    for (var attr in obj) {
-      newobj[attr] = obj[attr];
-    }
-    return newobj;
-  }
 
   function normal_validate(vm, key, times, is_ok) {
     vm.lan[key].split('.').forEach((val, index, arr) => {
@@ -100,7 +93,6 @@
       //   }
       // } else {
       if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
-        debugger
         $(`#${key}`).parents('.form-group').addClass('has-error');
         $(`#${key}`).parents('.form-group').find('.help-block').show();
         is_ok = false;
@@ -132,10 +124,24 @@
           return true;
         }
       },
+      index:{
+        type:Number,
+        required:true,
+      }
     },
     data() {
       return {
-        lan: this.lan_data,
+        // lan: {
+        //   'lan': this.lan_data.lan,
+        //   'isActive': this.lan_data.isActive,
+        //   'is_auto': this.lan_data.is_auto,
+        //   'ip': this.lan_data.ip,
+        //   'subnet_mask': this.lan_data.subnet_mask,
+        //   'gateway': this.lan_data.gateway,
+        //   'dns': this.lan_data.dns,
+        //   'mac': this.lan_data.mac
+        // },
+        lan:this.lan_data,
         alert: {
           success: {
             message: '修改配置成功',
@@ -148,7 +154,23 @@
         }
       }
     },
+    computed: {
+      // lan() {
+      //   return this.lan_data
+      // }
+      fieldset_id(){
+        return `${this.lan.lan}_ip_fieldset`
+      }
+    },
     methods: {
+      auto() {
+        $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'true'});
+        this.lan.is_auto = true;
+      },
+      not_auto() {
+        $(`#${this.lan.lan}_ip_fieldset`).removeAttr('disabled');
+        this.lan.is_auto = false;
+      },
       submit() {
         const vm = this;
         // 验证
@@ -200,11 +222,12 @@
         });
       },
       reset() {
-        this.lan = copy(this.old_data);
-        if (this.lan.is_auto == 'true') {
-          $('#ip_fieldset').attr({'disabled': 'disabled'});
+        debugger
+        this.lan = {...this.old_data};
+        if (JSON.parse(this.lan.is_auto)) {
+          $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'disabled'});
         } else {
-          $('#ip_fieldset').removeAttr('disabled');
+          $(`#${this.lan.lan}_ip_fieldset`).removeAttr('disabled');
         }
       },
       clear() {
@@ -212,10 +235,17 @@
       }
     },
     created() {
-      this.old_data = copy(this.lan);
+      debugger;
+      this.old_data = {...this.$store.state.old_data_list[this.index]};
     },
     mounted() {
       $('.help-block').hide();
+      debugger;
+      if (JSON.parse(this.lan.is_auto)) {
+        $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'disabled'});
+      } else {
+        $(`#${this.lan.lan}_ip_fieldset`).removeAttr('disabled');
+      }
     }
   }
 </script>

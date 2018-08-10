@@ -25,13 +25,19 @@ import '../static/font-awesome-4.7.0/css/font-awesome.min.css'
 import '../static/Hover-master/css/hover-min.css'
 import '../static/css/base.css'
 import conf from './config'
+import utilss from './utils'
 
+var utils = utilss;
 
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;
 Vue.config.productionTip = false;
 Vue.prototype.host=conf.host;
+Vue.prototype.utils = utilss;
 
+// 全局注册组件
+import v_alert from '@/common/v_alert';
+Vue.component('v_alert',v_alert);
 
 /* eslint-disable no-new */
 new Vue({
