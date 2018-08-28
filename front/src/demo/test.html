@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="1" class="top"></div>
+<div id="2" class="center" onclick="alert('haha')">
+  <input type="text">
+  <div class="zhezhao" id="zhezhao"></div>
+</div>
+<div id="3" class="bottom"></div>
+</body>
+
+<script>
+  var oDiv1 = document.getElementById('zhezhao');
+  oDiv1.onclick = function (e) {
+    e.cancelBubble = true;
+    e.stopPropagation()
+  };
+</script>
+
+<style lang="less">
+  .top {
+    width: 100%;
+    height: 5rem;
+    background-color: #2aabd2;
+  }
+
+  .center {
+    width: 100%;
+    height: 10rem;
+    background: #0F9E5E;
+    position: relative;
+  }
+
+  .zhezhao {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 99;
+  }
+
+  .bottom {
+    width: 100%;
+    height: 5rem;
+    background-color: #761c19;
+  }
+</style>
+</html>
+
+
+
+

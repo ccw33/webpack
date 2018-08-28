@@ -22,30 +22,31 @@
     data() {
       return {
         wifi_list: [
-          {
-            name: '别连我dsfasefwagewt',
-            is_lock: true,
-            key_type: 'WPA2',
-            strength: 1,
-          },
-          {
-            name: 'hahaha',
-            is_lock: true,
-            key_type: 'WPA2',
-            strength: 2,
-          },
-          {
-            name: '嘻嘻嘻',
-            is_lock: false,
-            key_type: 'WPA2',
-            strength: 4,
-          },
+          // {
+          //   name: '别连我dsfasefwagewt',
+          //   is_lock: true,
+          //   key_type: 'WPA2',
+          //   strength: 1,
+          // },
+          // {
+          //   name: 'hahaha',
+          //   is_lock: true,
+          //   key_type: 'WPA2',
+          //   strength: 2,
+          // },
+          // {
+          //   name: '嘻嘻嘻',
+          //   is_lock: false,
+          //   key_type: 'WPA2',
+          //   strength: 4,
+          // },
         ]
       }
     },
     methods: {
       open_wifi_link(wifi) {
         const vm = this;
+        debugger
         // 打开wifi连接窗口并关闭本窗口
         vm.$ajax.post(
           `${vm.host}/open_wifi_setting`,
@@ -72,7 +73,7 @@
 
       vm.$ajax.get(`${vm.host}/get_wifis`)
         .then(resp => {
-          // vm.wifi_list = resp.data;
+          vm.wifi_list = resp.data;
         }).catch(error => {
         console.error(`SERVER----------:${error.response.data.content}`);
         $('.alert-danger').show();
