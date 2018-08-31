@@ -58,7 +58,7 @@
   // });
   export default {
     name: 'Panel',
-    components: {v_tab},
+    components: {},
     data() {
       return {
         lans: [

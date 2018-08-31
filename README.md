@@ -67,8 +67,13 @@ vue init username/repo my-project
 
 # ADD
 ## vue+jquery+axios+qs+bootstrap3+less+animate+hover
-vue init ccw33/webpack-vue project-name
+将./template_collections/vjaqblah/template 拷贝到 ./下
 vue init . project-name
+
+## vue+jquery+axios+qs+bootstrap3+less+animate+hover
+将./template_collections/vjaqbsah/template 拷贝到 ./下
+vue init . project-name
+
 ## Promise支持
 https://blog.csdn.net/violetjack0808/article/details/73740301
 依赖已经装好，只需全局安装 phantomjs（如果出现找不到promise再装）
