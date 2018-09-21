@@ -2,6 +2,14 @@
   <form class="form-horizontal">
     <v_alert :alert="alert" @hide_success="alert.success.is_show=false" @hide_fail="alert.fail.is_show=false"></v_alert>
 
+    <div class="row w-100" style="margin-bottom: 1rem;">
+      <div class="col-sm-offset-1 col-sm-1">
+        <img src="../assets/2173-128.png" alt="" style="width: 3rem; height: 3rem;">
+      </div>
+      <div class="col-sm-8" style="line-height: 3rem">
+        {{lan.id}}
+      </div>
+    </div>
     <!--是否自动获得ip-->
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
@@ -78,6 +86,8 @@
 
 <script>
 
+  import utils from '../utils'
+
   function normal_validate(vm, key, times, is_ok) {
     vm.lan[key].split('.').forEach((val, index, arr) => {
       // if (key == 'dns') {
@@ -121,12 +131,22 @@
         type: Object,
         required: true,
         validator: function (value) {
-          return true;
+          let template = {
+            lan: '',
+            isActive: true,
+            is_auto: false,
+            ip: '',
+            subnet_mask: '',
+            gateway: '',
+            dns: '',
+            mac: ''
+          };
+          return utils.validate_template(value, template, 'lan_data');
         }
       },
-      index:{
-        type:Number,
-        required:true,
+      index: {
+        type: Number,
+        required: true,
       }
     },
     data() {
@@ -141,7 +161,7 @@
         //   'dns': this.lan_data.dns,
         //   'mac': this.lan_data.mac
         // },
-        lan:this.lan_data,
+        lan: this.lan_data,
         alert: {
           success: {
             message: '修改配置成功',
@@ -158,7 +178,7 @@
       // lan() {
       //   return this.lan_data
       // }
-      fieldset_id(){
+      fieldset_id() {
         return `${this.lan.lan}_ip_fieldset`
       }
     },
@@ -222,7 +242,6 @@
         });
       },
       reset() {
-        debugger
         this.lan = {...this.old_data};
         if (JSON.parse(this.lan.is_auto)) {
           $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'disabled'});
@@ -235,12 +254,10 @@
       }
     },
     created() {
-      debugger;
       this.old_data = {...this.$store.state.old_data_list[this.index]};
     },
     mounted() {
       $('.help-block').hide();
-      debugger;
       if (JSON.parse(this.lan.is_auto)) {
         $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'disabled'});
       } else {
@@ -254,6 +271,7 @@
 <style scoped lang="less">
   .form-horizontal {
     margin: 5rem;
+    margin-top: 2rem;
   }
 
   fieldset {

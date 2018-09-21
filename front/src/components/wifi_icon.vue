@@ -1,5 +1,5 @@
 <template>
-  <span class="wifi-icon" :class="[strengthLevel]">
+  <span class="wifi-icon" :class="[strengthLevel,is_connected]">
     <span class="wifi-1"></span>
     <span class="wifi-2"></span>
     <span class="wifi-3"></span>
@@ -9,27 +9,28 @@
 </template>
 
 <script>
-  import v_tab from '@/components/v_tab';
-
+  import utils from '../utils'
   export default {
     name: 'wifi_icon',
     components: {},
-    prop: {
+    props: {
       wifi_data: {
         type: Object,
         required: true,
-        validator(value) {
+        validator:function(value) {
           let template = {
             is_lock: true,
             strength: 1,
+            is_connected:false,
           };
-          return utils.validator(value, template, 'wifi_data')
+          return utils.validate_template(value, template, 'wifi_icon')
         }
+
       },
     },
     data() {
       return {
-        wifi:this.$attrs.wifi_data
+        wifi: this.$props.wifi_data
       }
     },
     computed: {
@@ -37,8 +38,11 @@
       //   return this.wifi.is_lock ? 'strength-ready' : 'strength-no'
       // },
       strengthLevel() {
-        return `strength-${this.wifi.strength}`
-      }
+        return this.wifi.strength>0?`strength-${this.wifi.strength}`:''
+      },
+      is_connected(){
+        return this.wifi_data.is_connected?'strength-ready':'strength-no'
+      },
     },
     methods: {},
     beforeCreate() {

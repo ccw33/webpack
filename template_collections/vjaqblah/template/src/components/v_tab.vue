@@ -95,9 +95,20 @@
         type: Object,
         required: true,
         validator: function (value) {
-          return true;
+          let template = {
+            lan: '',
+            isActive: true,
+            is_auto: false,
+            ip: '',
+            subnet_mask: '',
+            gateway: '',
+            dns: '',
+            mac: ''
+          };
+          return utils.validate_template(value, template, 'lan_data');
         }
       },
+
     },
     data() {
       return {

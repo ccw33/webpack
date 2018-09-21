@@ -93,7 +93,16 @@ module.exports = {
       // },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader",
+          options: {
+            includePaths: ["absolute/path/a", "absolute/path/b"]
+          }
+        }]
       },
       {
         test: require.resolve('jquery'),

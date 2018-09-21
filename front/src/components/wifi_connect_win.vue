@@ -109,6 +109,7 @@
       // }).finally(() => {
       //   vm.lan_data = vm.lans[0];
       // });
+      debugger
       let kv_list = window.location.search.replace('?', '').split('&');
       for (let index in kv_list) {
         let k = kv_list[index].split('=')[0];

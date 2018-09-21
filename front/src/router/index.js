@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Panel from '@/components/Panel'
 import Wifi from '@/components/Wifi'
 import wifi_connect_win from '@/components/wifi_connect_win'
+import screen_set from '@/components/screen_set'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/wifi_connect_win',
       name: 'wifi_connect_win',
       component: wifi_connect_win
+    },
+    {
+      path: '/screen_set',
+      name: 'screen_set',
+      component: screen_set
     }
   ]
 })
