@@ -1,5 +1,6 @@
 <template>
   <div class="my-container">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <my_header></my_header>
     <hr>
     <section id="step1" class="w-100 d-inline-flex flex-column justify-content-center align-items-center">
@@ -38,8 +39,10 @@
                    :data-content="p_detail.instruction"
                    @click="$('.fa-question-circle').popover('hide')"></i>
               </div>
-              <div>共{{p_detail.total_price}}元</div>
-              <button class="buy_button btn btn-info">{{p_detail.per_mon_price}}元/月</button>
+              <div>共{{p_detail.total_price}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+              <button class="buy_button btn btn-info" @click="select(item.price_detail_id,item.name,p_detail)">
+                {{p_detail.per_mon_price}}<i class="fa fa-jpy" aria-hidden="true"></i>/月
+              </button>
             </div>
           </div>
         </div>
@@ -51,39 +54,44 @@
       <h5 class="title align-self-start text-muted">第二步、完成支付</h5>
 
       <div class="accordion w-75" id="accordionExample">
-        <div class="card">
-          <div class="card-header p-0" id="headingOne">
-            <h5 class="mb-0">
-              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                      aria-expanded="true" aria-controls="collapseOne">
-                Collapsible Group Item #1
-              </button>
-            </h5>
-          </div>
-
-          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body w-100 d-inline-flex flex-column justify-content-center align-items-center">
-              <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
-                <div class="ml-1">选择套餐</div>
-                <div class="mr-1">2年paperplane套餐</div>
-              </div>
-              <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
-                <div class="ml-1">价格</div>
-                <div class="mr-1 ">308.88元</div>
-              </div>
-              <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
-                <div class="ml-1">使用优惠</div>
-                <div class="mr-1 ">-0元</div>
-              </div>
-              <hr>
-              <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
-                <div class="ml-1">总计</div>
-                <div class="mr-1 ">308.88元</div>
+        <template v-for="pay in pay_present">
+          <div class="card">
+            <div class="card-header p-0" :id="'heading_pay_'+pay.type">
+              <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse"
+                        :data-target="'#collapse_pay_'+pay.type"
+                        aria-expanded="true" :aria-controls="'collapse_pay_'+pay.type">
+                  <i :class="[pay.icon_class]" aria-hidden="true"></i>
+                  {{pay.name}}
+                </button>
+              </h5>
+            </div>
+            <div :id="'collapse_pay_'+pay.type" class="collapse" :aria-labelledby="'heading_pay_'+pay.type"
+                 data-parent="#accordionExample">
+              <div class="card-body w-100 d-inline-flex flex-column justify-content-center align-items-center">
+                <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
+                  <div class="option ml-1">选择套餐</div>
+                  <div class="title mr-1">{{selection.name}}-{{selection.price_detail.title}}</div>
+                </div>
+                <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
+                  <div class="option ml-1">价格</div>
+                  <div class="initial_price mr-1 ">{{selection.price_detail.total_price}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+                </div>
+                <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
+                  <div class="option ml-1">使用优惠</div>
+                  <div class="minus mr-1 ">-{{discount.minus}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+                </div>
+                <hr>
+                <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
+                  <div class="option ml-1">总计</div>
+                  <div class="total mr-1 ">{{selection.price_detail.total_price-discount.minus}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+                </div>
+                <hr>
+                <button class="pay btn btn-primary">使用{{pay.name}}完成支付</button>
               </div>
             </div>
           </div>
-
-        </div>
+        </template>
 
       </div>
     </section>
@@ -93,7 +101,6 @@
 
   </div>
 </template>
-
 <script>
   import my_header from '@/common/my_header';
 
@@ -218,10 +225,35 @@
         ],
         selection: {
           price_detail_id: '',
-          type: '',
-          total_price: 0,
-          per_mon_price: 0,
-        }
+          name: '',
+          price_detail: {
+            type: '',
+            title: '',
+            total_price: 0,
+            per_mon_price: 0,
+          }
+        },
+        discount: {
+          minus: 0,
+        },
+        pay_present: [
+          {
+            type: 'wechat',
+            name: '微信',
+            icon_class: 'fab fa-weixin',
+          },
+          {
+            type: 'alipay',
+            name: '支付宝',
+            icon_class: 'fab fa-alipay',
+          },
+          {
+            type: 'bank',
+            name: '银行卡',
+            icon_class: 'fas fa-credit-card',
+          },
+
+        ]
       }
     },
     computed: {
@@ -236,9 +268,12 @@
       }
     },
     methods: {
-      select(){
+      select(price_detail_id, name, price_detail) {
         const vm = this;
         //todo 选择好购买套餐后，在这里修改vm.selection,vm.selection会显示在支付section上
+        vm.selection.price_detail_id = price_detail_id;
+        vm.selection.name = name;
+        vm.selection.price_detail = price_detail;
       }
     },
     beforeCreate() {
@@ -345,6 +380,20 @@
       .accordion {
         min-width: 20em;
         max-width: 60em;
+        .collapse {
+          .option {
+            //color: $primary;
+          }
+          .total {
+            color: $success;
+          }
+          hr {
+            width: 100%;
+          }
+          button.pay {
+            width: 90%;
+          }
+        }
       }
     }
 
