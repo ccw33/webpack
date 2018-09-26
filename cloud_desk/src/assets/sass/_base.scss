@@ -1,0 +1,24 @@
+@import "theme";
+@import "~bootstrap/scss/bootstrap";
+
+$phone-max-width: 767px;
+$phone-max-portrait-width: 430px;
+$phone-max-landscape-width: 767px;
+
+$pad-min-width: 768px;
+
+.d-inline-flex-center-baseline-wrap {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-center;
+  @extend .align-items-baseline;
+  @extend .flex-wrap;
+}
+
+
+.d-inline-flex-wrap {
+  @extend .d-inline-flex;
+  @extend .flex-wrap;
+}
+
+

@@ -1,7 +1,7 @@
 <template>
   <div class="w-100 main-container">
     <header id="homepage_head" class="w-100 d-inline-flex-wrap align-items-start justify-content-between">
-      <!--<div class="logo ml-1 shadow-lg">{{logo_name}}</div>-->
+      <!--<div class="logo ml-1 shadow-lg">\{{ logo_name }}</div>-->
       <logo class="logo ml-1"></logo>
       <div class="buttons d-inline-flex-wrap">
         <div class="btn-group shadow-lg" role="group" aria-label="Button group with nested dropdown">
@@ -25,7 +25,7 @@
 
     <section class="w-100 banner d-inline-flex flex-column justify-content-center align-items-center">
       <div class="text w-100 d-inline-flex flex-column justify-content-center align-items-center">
-        <h1>{{logo_name}}</h1>
+        <h1>\{{ logo_name }}</h1>
         <h2>--自由的访问网络，不再受到限制！！！</h2>
         <h2>--便宜！稳定！安全！快速！不限设备！！！</h2>
       </div>
@@ -75,7 +75,7 @@
         </h2>
         <h2 class="text-muted ">
           由于vpn只提供一个服务器，一旦遭到封锁就会导致客户无法连接，
-          <b> {{ logo_name }} </b>提供多个服务器进行备用，保证客户网络保持流畅，妈妈再也不用担心我游戏断线了
+          <b> \{{ logo_name }} </b>提供多个服务器进行备用，保证客户网络保持流畅，妈妈再也不用担心我游戏断线了
         </h2>
       </div>
       <div class="img"></div>
@@ -105,7 +105,7 @@
           市面上的vpn都会限制设备使用数量，使用设备越多价格越高。
         </h2>
         <h2 class="text-muted ">
-          ——但是 <b> {{logo_name}} </b>不作限制！！！
+          ——但是 <b> \{{ logo_name }} </b>不作限制！！！
         </h2>
       </div>
     </section>

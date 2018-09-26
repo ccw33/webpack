@@ -1,6 +1,6 @@
 <template>
   <div class="my-container w-100 d-inline-flex flex-column justify-content-center align-items-center">
-    <h2 class="title">登录{{conf.logo_name}}</h2>
+    <h2 class="title">登录\{{ conf.logo_name }}</h2>
     <div id="selete_login_type" class="btn-group btn-group-toggle" data-toggle="buttons">
       <label class="btn btn-primary active" @click="form.account.type='account'">
         <input type="radio"> 账号
@@ -14,13 +14,13 @@
     </div>
     <form class="d-inline-flex flex-column justify-content-center align-items-center">
       <div id="account" class="form-group">
-        <label>{{account_type}}：</label>
+        <label>\{{ account_type }}：</label>
         <input type="text" class="form-control"
                :class="{'is-invalid':form.account.is_invalid}"
                :placeholder="'请输入'+account_type" v-model="form.account.val"
                required>
         <div class="invalid-feedback">
-          {{form.account.help_text}}
+          \{{ form.account.help_text }}
         </div>
       </div>
       <div id="password" class="form-group">
@@ -30,7 +30,7 @@
                placeholder="请输入密码" v-model="form.password.val"
                required>
         <div class="invalid-feedback">
-          {{form.password.help_text}}
+          \{{ form.password.help_text }}
         </div>
       </div>
     </form>

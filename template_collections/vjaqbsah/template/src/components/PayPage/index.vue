@@ -1,6 +1,7 @@
 <template>
   <div class="my-container">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <my_header></my_header>
     <hr>
     <section id="step1" class="w-100 d-inline-flex flex-column justify-content-center align-items-center">
@@ -12,9 +13,9 @@
         <div class="swiper-wrapper">
           <div v-for="(item,index) in  sets"
                class="swiper-slide d-inline-flex flex-column justify-content-center align-items-center">
-            <div class="title_mention" v-if="item.title_mention">{{item.title_mention}}</div>
-            <h1 class="name">{{item.name}}</h1>
-            <div class="price_preview">{{item.price_preview}}</div>
+            <div class="title_mention" v-if="item.title_mention">\{{ item.title_mention }}</div>
+            <h1 class="name">\{{ item.name }}</h1>
+            <div class="price_preview">\{{ item.price_preview }}</div>
             <button class="learn_more btn btn-primary" type="button" data-toggle="collapse"
                     :data-target="'#'+item.price_detail_id"
                     aria-expanded="true" :aria-controls="item.price_detail_id"
@@ -28,20 +29,20 @@
       </div>
       <div class="collapse" data-parent="#step1" :id="item.price_detail_id" v-for="(item,index) in sets">
         <div class="card card-body w-100 d-inline-flex flex-column justify-content-center align-items-center">
-          <h1>{{item.name}}</h1>
+          <h1>\{{ item.name }}</h1>
           <div class="chosen w-100 d-inline-flex flex-row justify-content-center align-items-center flex-wrap">
             <div class="p_detail d-inline-flex flex-column justify-content-center align-items-center"
                  v-for="(p_detail,p_index) in item.price_detail">
               <div class="hvr-icon-up  d-inline-flex flex-row justify-content-center align-items-baseline">
-                <h4 class="text-primary">{{p_detail.title}}</h4>
+                <h4 class="text-primary">\{{ p_detail.title }}</h4>
                 <i class="fa fa-question-circle hvr-icon" aria-hidden="true" data-toggle="popover" data-placement="top"
                    :data-title="p_detail.title"
                    :data-content="p_detail.instruction"
                    @click="$('.fa-question-circle').popover('hide')"></i>
               </div>
-              <div>共{{p_detail.total_price}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+              <div>共\{{ p_detail.total_price }}<i class="fa fa-jpy" aria-hidden="true"></i></div>
               <button class="buy_button btn btn-info" @click="select(item.price_detail_id,item.name,p_detail)">
-                {{p_detail.per_mon_price}}<i class="fa fa-jpy" aria-hidden="true"></i>/月
+                \{{ p_detail.per_mon_price }}<i class="fa fa-jpy" aria-hidden="true"></i>/月
               </button>
             </div>
           </div>
@@ -62,7 +63,7 @@
                         :data-target="'#collapse_pay_'+pay.type"
                         aria-expanded="true" :aria-controls="'collapse_pay_'+pay.type">
                   <i :class="[pay.icon_class]" aria-hidden="true"></i>
-                  {{pay.name}}
+                  \{{ pay.name }}
                 </button>
               </h5>
             </div>
@@ -71,23 +72,27 @@
               <div class="card-body w-100 d-inline-flex flex-column justify-content-center align-items-center">
                 <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
                   <div class="option ml-1">选择套餐</div>
-                  <div class="title mr-1">{{selection.name}}-{{selection.price_detail.title}}</div>
+                  <div class="title mr-1">\{{ selection.name}}-{{selection.price_detail.title }}</div>
                 </div>
                 <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
                   <div class="option ml-1">价格</div>
-                  <div class="initial_price mr-1 ">{{selection.price_detail.total_price}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+                  <div class="initial_price mr-1 ">\{{ selection.price_detail.total_price }}<i class="fa fa-jpy"
+                                                                                            aria-hidden="true"></i>
+                  </div>
                 </div>
                 <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
                   <div class="option ml-1">使用优惠</div>
-                  <div class="minus mr-1 ">-{{discount.minus}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+                  <div class="minus mr-1 ">-\{{ discount.minus }}<i class="fa fa-jpy" aria-hidden="true"></i></div>
                 </div>
                 <hr>
                 <div class="w-100 d-inline-flex flex-row justify-content-between align-items-baseline">
                   <div class="option ml-1">总计</div>
-                  <div class="total mr-1 ">{{selection.price_detail.total_price-discount.minus}}<i class="fa fa-jpy" aria-hidden="true"></i></div>
+                  <div class="total mr-1 ">\{{ selection.price_detail.total_price-discount.minus }}<i class="fa fa-jpy"
+                                                                                                   aria-hidden="true"></i>
+                  </div>
                 </div>
                 <hr>
-                <button class="pay btn btn-primary">使用{{pay.name}}完成支付</button>
+                <button class="pay btn btn-primary">使用\{{ pay.name }}完成支付</button>
               </div>
             </div>
           </div>
