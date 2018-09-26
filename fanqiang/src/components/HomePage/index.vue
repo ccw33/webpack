@@ -30,7 +30,7 @@
         <h2>--便宜！稳定！安全！快速！不限设备！！！</h2>
       </div>
       <div class="buttons w-100 d-inline-flex flex-row justify-content-center flex-wrap">
-        <button type="button" class="btn btn-info btn-lg hvr-hang">立即购买</button>
+        <button type="button" class="btn btn-info btn-lg hvr-hang" @click="$router.push({ name: 'Pay'})">立即购买</button>
         <button type="button" class="btn btn-secondary btn-lg hvr-hang">限时优惠15/月 <br>
           价格是vpn的1/5
         </button>
@@ -134,7 +134,8 @@
         logo_name: this.conf.logo_name
       }
     },
-    methods: {},
+    methods: {
+    },
     beforeCreate() {
       let vm = this;
       // // $.get(`${vm.host}/get_lans`,

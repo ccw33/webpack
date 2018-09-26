@@ -41,5 +41,10 @@ export default {
       }
       return newobj;
     }
+  },
+
+  //页面缓慢移动到指定位置
+  slowly_scroll_to(selector,time=800){
+    $('html,body').animate({scrollTop:$(selector).offset().top},time)
   }
 }

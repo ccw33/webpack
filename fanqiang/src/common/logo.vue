@@ -1,5 +1,5 @@
 <template>
-  <div class="logo shadow-lg" @click="to_index">{{conf.logo_name}}</div>
+  <div class="logo shadow-lg hvr-bounce-to-right" @click="$router.push('/')">{{conf.logo_name}}</div>
 </template>
 
 <script>
@@ -13,12 +13,7 @@
     data() {
       return {}
     },
-    methods: {
-      to_index(){
-        const vm = this;
-        this.$router.push('/')
-      }
-    },
+    methods: {},
     beforeCreate() {
       let vm = this;
       // // $.get(`${vm.host}/get_lans`,
@@ -43,6 +38,7 @@
 <style scoped lang="scss">
   .logo {
     font-family: 'HanyiSentyChalk';
+    cursor: pointer;
   }
 
 </style>

@@ -11,26 +11,28 @@ import router from './router'
 
 import axios from 'axios'
 import qs from 'qs'
-require('jquery');
-require('bootstrap');
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap'
 import Promise from 'es6-promise'
 import 'animate.css'
+import Swiper from 'swiper'
+import 'swiper/dist/css/swiper.css'
 Promise.polyfill()
-import '../static/font-awesome-4.7.0/css/font-awesome.min.css'
-import '../static/Hover-master/css/hover-min.css'
-import '../static/css/base.css'
+import 'font-awesome/css/font-awesome.css'
+import '../static/Hover-master/css/hover.css'
 import conf from './config'
 import utilss from './utils'
 
-var utils = utilss;
+utilss.Swiper = Swiper;
+
 
 Vue.prototype.$ajax = axios;
 Vue.prototype.$qs = qs;
 Vue.config.productionTip = false;
 Vue.prototype.host=conf.host;
+Vue.prototype.conf = conf;
 Vue.prototype.utils = utilss;
+Vue.prototype.$ = $;
 
 // 全局注册组件
 import v_alert from '@/common/v_alert';
@@ -39,14 +41,7 @@ Vue.component('v_alert',v_alert);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  {{#router}}
   router,
-  {{/router}}
-  {{#if_eq build "runtime"}}
-  render: h => h(App)
-  {{/if_eq}}
-  {{#if_eq build "standalone"}}
   components: { App },
   template: '<App/>'
-  {{/if_eq}}
 })
