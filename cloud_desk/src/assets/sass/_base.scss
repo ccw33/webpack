@@ -7,7 +7,24 @@ $phone-max-landscape-width: 767px;
 
 $pad-min-width: 768px;
 
-.d-inline-flex-center-baseline-wrap {
+//row center
+.inline-row-center-center {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-center;
+  @extend .align-items-center;
+  @extend .flex-wrap;
+}
+
+.inline-row-center-start {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-center;
+  @extend .align-items-start;
+  @extend .flex-wrap;
+}
+
+.inline-row-center-baseline {
   @extend .d-inline-flex;
   @extend .flex-row;
   @extend .justify-content-center;
@@ -15,10 +32,179 @@ $pad-min-width: 768px;
   @extend .flex-wrap;
 }
 
-
-.d-inline-flex-wrap {
+.inline-row-center-end {
   @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-center;
+  @extend .align-items-end;
   @extend .flex-wrap;
 }
+
+//row start
+.inline-row-start-center {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-start;
+  @extend .align-items-center;
+  @extend .flex-wrap;
+}
+
+.inline-row-start-start {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-start;
+  @extend .align-items-start;
+  @extend .flex-wrap;
+}
+
+.inline-row-start-baseline {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-start;
+  @extend .align-items-baseline;
+  @extend .flex-wrap;
+}
+
+.inline-row-start-end {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-start;
+  @extend .align-items-end;
+  @extend .flex-wrap;
+}
+
+//row end
+.inline-row-end-center {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-end;
+  @extend .align-items-center;
+  @extend .flex-wrap;
+}
+
+.inline-row-end-start {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-end;
+  @extend .align-items-start;
+  @extend .flex-wrap;
+}
+
+.inline-row-end-baseline {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-end;
+  @extend .align-items-baseline;
+  @extend .flex-wrap;
+}
+
+.inline-row-end-end {
+  @extend .d-inline-flex;
+  @extend .flex-row;
+  @extend .justify-content-end;
+  @extend .align-items-end;
+  @extend .flex-wrap;
+}
+
+//column center
+.inline-column-center-center {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-center;
+  @extend .align-items-center;
+  @extend .flex-wrap;
+}
+
+.inline-column-center-start {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-center;
+  @extend .align-items-start;
+  @extend .flex-wrap;
+}
+
+.inline-column-center-baseline {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-center;
+  @extend .align-items-baseline;
+  @extend .flex-wrap;
+}
+
+.inline-column-center-end {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-center;
+  @extend .align-items-end;
+  @extend .flex-wrap;
+}
+
+//column start
+.inline-column-start-center {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-start;
+  @extend .align-items-center;
+  @extend .flex-wrap;
+}
+
+.inline-column-start-start {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-start;
+  @extend .align-items-start;
+  @extend .flex-wrap;
+}
+
+.inline-column-start-baseline {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-start;
+  @extend .align-items-baseline;
+  @extend .flex-wrap;
+}
+
+.inline-column-start-end {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-start;
+  @extend .align-items-end;
+  @extend .flex-wrap;
+}
+
+//column end
+.inline-column-end-center {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-end;
+  @extend .align-items-center;
+  @extend .flex-wrap;
+}
+
+.inline-column-end-start {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-end;
+  @extend .align-items-start;
+  @extend .flex-wrap;
+}
+
+.inline-column-end-baseline {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-end;
+  @extend .align-items-baseline;
+  @extend .flex-wrap;
+}
+
+.inline-column-end-end {
+  @extend .d-inline-flex;
+  @extend .flex-column;
+  @extend .justify-content-end;
+  @extend .align-items-end;
+  @extend .flex-wrap;
+}
+
+
 
 

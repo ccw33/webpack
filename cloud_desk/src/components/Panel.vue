@@ -1,14 +1,12 @@
 <template>
-  <div class="main-container">
-    <div class="top-img"></div>
+  <div class="my-container">
+    <!--<div class="top-img"></div>-->
     <div class="content">
-      <v_alert :alert="alert" @hide_success="alert.success.is_show=false"
-               @hide_fail="alert.fail.is_show=false"></v_alert>
       <ul class="nav nav-tabs">
-        <li role="presentation" v-for="(item, index) in lans" :class="{'active':item.isActive}"
+        <li class="nav-item" role="presentation" v-for="(item, index) in lans"
             @click="activate(index)">
-          <a
-            href="#">{{item.lan}}</a></li>
+          <a class="nav-link" :class="{'active':item.isActive}"
+             href="#">{{item.lan}}</a></li>
       </ul>
       <template v-for="(lan, index)  in lans">
         <transition enter-active-class="animated bounce">
@@ -51,16 +49,28 @@
     data() {
       return {
         lans: [
-          // {
-          //   'lan': '',
-          //   'isActive': true,
-          //   'is_auto': false,
-          //   'ip': '',
-          //   'subnet_mask': '',
-          //   'gateway': '',
-          //   'dns': '',
-          //   'mac': ''
-          // },
+          {
+            'lan': '11111',
+            'isActive': true,
+            'is_auto': false,
+            'id': '11111',
+            'ip': '11111',
+            'subnet_mask': '11111',
+            'gateway': '11111',
+            'dns': '11111',
+            'mac': '11111'
+          },
+          {
+            'lan': '22222',
+            'id': '22222',
+            'isActive': true,
+            'is_auto': false,
+            'ip': '22222',
+            'subnet_mask': '22222',
+            'gateway': '22222',
+            'dns': '22222',
+            'mac': '22222'
+          },
         ],
         alert: {
           success: {
@@ -84,33 +94,27 @@
     },
     beforeCreate() {
       let vm = this;
-      // $.get(`${vm.host}/get_lans`,
-      //   function (resp) {
-      //     vm.lans = resp;
-      //     vm.lan_data = vm.lans[0];
-      //   });
-
-      vm.$ajax.get(`${vm.host}/get_lans`)
-        .then(resp => {
-          vm.lans = resp.data;
-          vm.$store.commit('initial_old_data', vm.utils.copy(vm.lans));
-        }).catch(error => {
-        console.error(`SERVER----------:${error.response.data.content}`);
-        vm.alert.fail.is_show = true;
-      });
+      // vm.$ajax.get(`${vm.host}/get_lans`)
+      //   .then(resp => {
+      //     vm.lans = resp.data;
+      //     vm.$store.commit('initial_old_data', vm.utils.copy(vm.lans));
+      //   }).catch(error => {
+      //   console.error(`SERVER----------:${error.response.data.content}`);
+      //   vm.$root.alert.fail.is_show = true;
+      // });
     },
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  .main-container {
-    .top-img{
-      width: 100%;
-      padding-bottom: 30%;
-      /*background-image: url("/static/img/yzm_18_2.png");*/
-      background-size: 100% auto;
-    }
+  .my-container {
+    /*.top-img{*/
+    /*width: 100%;*/
+    /*padding-bottom: 30%;*/
+    /*!*background-image: url("/static/img/yzm_18_2.png");*!*/
+    /*background-size: 100% auto;*/
+    /*}*/
   }
 
 </style>

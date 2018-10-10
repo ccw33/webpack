@@ -3,11 +3,15 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue);
 
 
 import axios from 'axios'
 import qs from 'qs'
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap'
 import Promise from 'es6-promise'
 import 'animate.css'

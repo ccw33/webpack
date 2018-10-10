@@ -1,149 +1,180 @@
 <template>
-  <div class="w-100 main-container">
-    <header id="homepage_head" class="w-100 d-inline-flex-wrap align-items-start justify-content-between">
-      <!--<div class="logo ml-1 shadow-lg">\{{ logo_name }}</div>-->
-      <logo class="logo ml-1"></logo>
-      <div class="buttons d-inline-flex-wrap">
-        <div class="btn-group shadow-lg" role="group" aria-label="Button group with nested dropdown">
-          <button type="button" class="download btn btn-link">下载</button>
-          <div class="btn-group" role="group">
-            <button id="btnGroupDrop1" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-              账户
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <router-link to="/Account/login" class="dropdown-item">登录</router-link>
-              <router-link to="/Account/sign_in" class="dropdown-item">注册</router-link>
-            </div>
-          </div>
-          <router-link to="/Pay" class="btn btn-link">商店</router-link>
-          <router-link :to="{ name: 'Download'}" class="btn btn-link">关于我们</router-link>
-        </div>
+  <div class="w-100 h-100 inline-column-start-center p-3 my-container animated bounceInDown">
 
+
+    <header class="w-100 inline-row-center-center justify-content-between">
+      <div class="logo"></div>
+      <div class="buttons inline-row-center-center">
+        <div class="setting inline-column-center-center mr-2" @click="modalShow = !modalShow">
+          <div class="icon"></div>
+          <div class="text-primary">设置</div>
+        </div>
+        <div class="exit inline-column-center-center" @click="exit">
+          <div class="icon"></div>
+          <div class="text-primary">退出</div>
+        </div>
       </div>
     </header>
-
-    <section class="w-100 banner d-inline-flex flex-column justify-content-center align-items-center">
-      <div class="text w-100 d-inline-flex flex-column justify-content-center align-items-center">
-        <h1>\{{ logo_name }}</h1>
-        <h2>--自由的访问网络，不再受到限制！！！</h2>
-        <h2>--便宜！稳定！安全！快速！不限设备！！！</h2>
+    <article class="w-100 inline-column-center-center">
+      <h1 class="">蓝盾云桌面管理系统</h1>
+      <div class="buttons w-50 inline-row-center-center justify-content-around">
+        <div v-for="(vm,index) in vm_list" class="vm inline-column-center-center">
+          <div class="icon hvr-grow inline-row-center-center">
+            <div :class="[vm.vm_type]"></div>
+          </div>
+          <div class="name text-white">{{vm.name}}</div>
+        </div>
       </div>
-      <div class="buttons w-100 d-inline-flex flex-row justify-content-center flex-wrap">
-        <button type="button" class="btn btn-info btn-lg hvr-hang" @click="$router.push({ name: 'Pay'})">立即购买</button>
-        <button type="button" class="btn btn-secondary btn-lg hvr-hang">限时优惠15/月 <br>
-          价格是vpn的1/5
-        </button>
-      </div>
-      <div class="nav d-inline-flex flex-row justify-content-center align-items-baseline flex-wrap">
-        <div class="shadow-lg hvr-grow-rotate"><a href="#"
-                                                  @click="utils.slowly_scroll_to('#cheap')">便宜</a></div>
-        <div class="shadow-lg hvr-grow-rotate"><a href="#"
-                                                  @click="utils.slowly_scroll_to('#stable')">稳定</a></div>
-        <div class="shadow-lg hvr-grow-rotate"><a href="#"
-                                                  @click="utils.slowly_scroll_to('#safe')">安全</a></div>
-        <div class="shadow-lg hvr-grow-rotate"><a href="#"
-                                                  @click="utils.slowly_scroll_to('#unlimit')">不限设备</a></div>
-      </div>
-
-
-    </section>
-
-    <section id="cheap"
-             class="bg-section w-100 h-auto">
-      <div class="img"></div>
-      <div class="text d-inline-flex flex-column justify-content-center align-items-center">
-        <h1 class="">省钱</h1>
-        <h2 class="text-muted ">
-          ——价格是VPN的1/4
-        </h2>
-        <h2 class="text-muted ">
-          ——新用户<b> 免费体验！！！</b>
-        </h2>
-        <h2 class="text-muted ">
-          ——购买越多优惠越多
-        </h2>
-      </div>
-    </section>
-
-    <section id="stable"
-             class="bg-section w-100 h-auto">
-      <div class="text d-inline-flex flex-column justify-content-center align-items-center">
-        <h1 class="">稳定</h1>
-        <h2 class="text-muted ">
-          ——提供每个账号提供一个以上的备用服务器，随时候命。
-        </h2>
-        <h2 class="text-muted ">
-          由于vpn只提供一个服务器，一旦遭到封锁就会导致客户无法连接，
-          <b> \{{ logo_name }} </b>提供多个服务器进行备用，保证客户网络保持流畅，妈妈再也不用担心我游戏断线了
-        </h2>
-      </div>
-      <div class="img"></div>
-    </section>
-
-    <section id="safe"
-             class="bg-section w-100 h-auto">
-      <div class="img"></div>
-      <div class="text d-inline-flex flex-column justify-content-center align-items-center">
-        <h1 class="">安全</h1>
-        <h2 class="text-muted ">
-          ——经过国外不同国家的多次跳转（仍然保持高速），隐藏真实ip，无法追踪
-        </h2>
-        <h2 class="text-muted font-itali！c">
-          ——结合开源技术进行代理，直连国外服务器，没有中间商监听流量。
-        </h2>
-      </div>
-    </section>
-
-    <section id="unlimit"
-             class="bg-section w-100 h-auto">
-      <div class="img"></div>
-      <div class="text d-inline-flex flex-column justify-content-center align-items-center">
-        <h1 class="">不限设备</h1>
-        <h2 class="text-muted ">
-          ——同一账号可以在不同设备使用，数量不限！！！
-          市面上的vpn都会限制设备使用数量，使用设备越多价格越高。
-        </h2>
-        <h2 class="text-muted ">
-          ——但是 <b> \{{ logo_name }} </b>不作限制！！！
-        </h2>
-      </div>
-    </section>
-
-
-    <footer id="homepage_foot" class="w-100 d-inline-flex flex-column justify-content-center align-items-center">
-      <h1>最后的寄语</h1>
-      <h2>——提供Mondo的初衷是为了让大家有一个自由上网的环境，而不是散布不当言论。</h2>
-      <h2>希望大家能够在自己国家的法律法规范围内，把Mondo使用在娱乐、学习和工作上</h2>
+    </article>
+    <footer class="mt-auto">
+      <copy_right></copy_right>
     </footer>
-    <div style="height: 10rem;"></div>
-    <i class="fa fa-arrow-up hvr-bob" aria-hidden="true" @click="utils.slowly_scroll_to('.main-container')"></i>
+
+    <!-- Modal Component -->
+    <b-modal class="my-modal" :no-close-on-backdrop="true" v-model="modalShow">
+      <div slot="modal-title" class="w-100">
+        <h3>修改密码</h3>
+      </div>
+      <form class="w-100">
+        <div class="input w-100 inline-row-start-start">
+          <label class="w-25">原始密码：</label>
+          <div class="w-75 inline-column-start-start">
+            <input type="password" class="form-control form-control-sm w-100" placeholder="输入密码"
+                   :class="{'is-invalid':form.old_pass.is_invalid}"
+                   v-model="form.old_pass.val">
+            <div class="invalid-feedback">
+              {{form.old_pass.help_text}}
+            </div>
+          </div>
+        </div>
+
+        <div class="input w-100 inline-row-start-start">
+          <label class="w-25">新原密码：</label>
+          <div class="w-75 inline-column-start-start">
+            <input type="password" class="form-control form-control-sm w-100" placeholder="输入密码"
+                   :class="{'is-invalid':form.new_pass.is_invalid}"
+                   v-model="form.new_pass.val">
+            <div class="invalid-feedback">
+              {{form.new_pass.help_text}}
+            </div>
+          </div>
+        </div>
+
+        <div class="input w-100 inline-row-start-start">
+          <label class="w-25">确认新密码：</label>
+          <div class="w-75 inline-column-start-start">
+            <input type="password" class="form-control form-control-sm w-100" placeholder="输入密码"
+                   :class="{'is-invalid':form.repeat_pass.is_invalid}"
+                   v-model="form.repeat_pass.val">
+            <div class="invalid-feedback">
+              {{form.repeat_pass.help_text}}
+            </div>
+          </div>
+        </div>
+      </form>
+      <div slot="modal-footer" class="w-100 footer inline-row-end-baseline">
+        <button class="btn btn-default" @click="modalShow = false">取消</button>
+        <button class="btn btn-primary" @click="reset_password">提交</button>
+      </div>
+    </b-modal>
+
   </div>
 </template>
 
 <script>
-  import logo from '@/common/logo';
-  // $('.carousel').carousel({
-  //   pause:true,
-  // });
+  import copy_right from '@/common/copy_right';
+
   export default {
     name: 'HomePage',
-    components: {logo},
+    components: {copy_right},
     data() {
       return {
-        logo_name: this.conf.logo_name
+        form: {
+          old_pass: {
+            val: '',
+            is_invalid: false,
+            help_text: '密码不能为空',
+          },
+          new_pass: {
+            val: '',
+            is_invalid: false,
+            help_text: '密码不能为空',
+          },
+          repeat_pass: {
+            val: '',
+            is_invalid: false,
+            help_text: '输入的新密码不一致',
+          },
+        },
+        vm_list: [
+          {
+            name: 'fujian-win7',
+            vm_type: 'windows',
+          },
+          {
+            name: 'win7-5-18',
+            vm_type: 'ubuntu',
+          },
+          {
+            name: 'win7-5-18',
+            vm_type: 'linux',
+          },
+          {
+            name: 'win7-5-18',
+            vm_type: 'centos',
+          },
+        ],
+        modalShow: false,
       }
     },
     methods: {
+      reset_password() {
+        const vm = this;
+        vm.$ajax.get('/api/common_api/api.EditPassword', {
+          params: {
+            password: vm.form.old_pass.val,
+            newPassword: vm.form.new_pass.val,
+            rePassword: vm.form.repeat_pass.val,
+            systemType: vm.utils.get_system_typenum(),
+          }
+        }).then(resp => {
+          debugger
+          if (resp.data.errorinfo == 'success') {
+            vm.$root.alert.success.message = '修改密码成功';
+            vm.$root.alert.success.is_show = true;
+          }
+          else {
+            vm.$root.alert.fail.message = resp.data.errorinfo;
+            vm.$root.alert.fail.is_show = true;
+          }
+        }).catch(error => {
+          debugger
+          if (error.response.status == 401)
+            return
+          console.log(error.response.data)
+          vm.$root.alert.fail.message = '修改密码失败';
+          vm.$root.alert.fail.is_show = true;
+        })
+      },
+      exit() {
+        const vm = this;
+        vm.$ajax.get(`/api/account/logout`)
+          .then(resp => {
+            vm.$router.push('/login');
+          }).catch(error => {
+          if (error.response.status == 401)
+            return
+          if (error.response)
+            console.error(error.response.data.content);
+          vm.$root.alert.fail.is_show = true;
+          vm.$root.alert.fail.message = '登出失败';
+        }).finally(() => {
+          // vm.lan_data = vm.lans[0];
+        });
+      }
     },
     beforeCreate() {
       let vm = this;
-      // // $.get(`${vm.host}/get_lans`,
-      // //   function (resp) {
-      // //     vm.lans = resp;
-      // //     vm.lan_data = vm.lans[0];
-      // //   });
-      //
       // vm.$ajax.get(`${vm.host}/get_lans`)
       //   .then(resp => {
       //     vm.lans = resp.data;
@@ -160,197 +191,137 @@
 <style scoped lang="scss">
   @import "../../assets/sass/base";
 
-  .main-container {
-
+  .my-container {
     font-size: 1rem;
-    //@media all and (max-width: $phone-max-landscape-width) {
-    //  font-size: 1rem;
-    //}
-
-    @media all and (max-width: $phone-max-portrait-width) {
-      font-size: 0.8rem;
+    background: {
+      image: url("/static/img/HomePage/bg.jpg");
+      position: center;
+      size: cover;
     }
-    $header-height: 3em;
-    #homepage_head {
-      $height: $header-height;
-      height: $height;
-      font-family: 'HanyiSentyChalk';
-      background-color: transparent;
-      margin-bottom: 0.3em;
+    header {
+      $height: 4em;
       .logo {
-        font-size: $height*0.7;
-        //color:$bg-color-4
-      }
-      .buttons {
-        button, a {
-          font-size: $height*0.5;
-          color: $color-secondary-1-0;
-          @media all and (max-width: $phone-max-portrait-width) {
-            color: $color-secondary-1-1;
-          }
-          border: {
-            style: solid;
-            color: $color-secondary-1-0;
-            width: 0;
-            bottom-width: 2px;
-          }
-          @media all and (max-width: $phone-max-portrait-width) {
-            border-bottom-color: $color-secondary-1-1;
-          }
-        }
-        //.download {
-        //  color: $color-secondary-2-3;
-        //  border-color: $color-secondary-2-3;
-        // }
-      }
-    }
-
-    .banner {
-      /*padding-bottom: 44%;*/
-      /*height: 35em;*/
-      padding: 2em;
-      @media all and (max-width: $phone-max-portrait-width) {
-        padding-top: $header-height+2em;
-      }
-      background: {
-        image: url("/static/img/homepage/twitter-292988_1280_3.jpg");
-        size: cover;
-      }
-      .text {
-        font-family: 'SentyTEA';
-        color: $color-secondary-2-2;
-      }
-      .buttons {
-        button {
-          margin: 2em;
-          @media all and (max-width: $phone-max-portrait-width) {
-            margin: 1em;
-          }
-          font-family: 'HanyiSentyChalk';
+        width: $height*2;
+        height: $height;
+        background: {
+          image: url("/static/img/logo/new_logo.png");
+          position: center;
+          repeat: no-repeat;
+          size: contain;
         }
       }
-
-      .nav {
-        font-size: 2em;
-        font-family: 'HanyiSentyDiary';
-        div {
-          $tansparent: 0.2;
-          background-color: rgba($tansparent, $tansparent, $tansparent, $tansparent);
-          margin: 0.5em;
-          padding: 0 0.2em;
-          -webkit-border-radius: 0.1em;
-          -moz-border-radius: 0.1em;
-          border: {
-            radius: 0.1em;
-            style: solid;
-            width: 1px;
-            color: $color-withe;
+      .buttons {
+        .setting {
+          .icon {
+            width: $height*0.8;
+            height: $height*0.8;
+            background: {
+              image: url("/static/img/icon/icon_setting.png");
+              position: center;
+              repeat: no-repeat;
+              size: contain;
+            }
           }
-          a {
-            color: $color-withe;
-            &:hover {
-              text-decoration: none;
+          &:hover {
+            .icon {
+              background-image: url("/static/img/icon/icon_setting_hover.png");
+            }
+            .text-primary {
+              color: $color-withe !important;
+            }
+          }
+        }
+        .exit {
+          .icon {
+            width: $height*0.8;
+            height: $height*0.8;
+            background: {
+              image: url("/static/img/icon/icon_exit.png");
+              position: center;
+              repeat: no-repeat;
+              size: contain;
+            }
+          }
+          &:hover {
+            .icon {
+              background-image: url("/static/img/icon/icon_exit_hover.png");
+            }
+            .text-primary {
+              color: $color-withe !important;
             }
           }
         }
       }
+    }
+
+    article {
+      height: 60%;
+      h1 {
+        color: $color-withe-gray;
+      }
+      .buttons {
+        .icon {
+          $height: 6em;
+          width: $height;
+          height: $height;
+          margin: 2em 2em 0 2em;
+          background: {
+            image: url("/static/img/HomePage/vmbg01.png");
+            position: center;
+            repeat: no-repeat;
+            size: contain;
+          }
+          &:hover {
+            background-image: url("/static/img/HomePage/vmbg_hover01.png");
+          }
+          .windows, .linux, .ubuntu, .centos {
+            width: 50%;
+            height: 50%;
+            background: {
+              position: center;
+              repeat: no-repeat;
+              size: contain;
+            }
+          }
+          .windows {
+            width: 50%;
+            height: 50%;
+            background-image: url("/static/img/HomePage/windows.png");
+          }
+          .linux {
+            background-image: url("/static/img/HomePage/linux.png");
+          }
+          .ubuntu {
+            background-image: url("/static/img/HomePage/ubuntu.png");
+          }
+          .centos {
+            background-image: url("/static/img/HomePage/centos.png");
+          }
+
+        }
+      }
+    }
+    footer {
 
     }
 
-    section.bg-section {
-      @extend .d-inline-flex;
-      @extend .flex-row;
-      @extend .justify-content-center;
-      @extend .align-items-center;
-      @extend .flex-wrap;
-
-      $fontsize: 5em;
-      .img {
-        width: 50%;
-        padding-bottom: 50%;
-        @media all and (max-width: $phone-max-portrait-width) {
-          width: 100%;
-          padding-bottom: 100%;
-        }
-        background: {
-          repeat: no-repeat;
-          size: contain;
-          position: center;
-        }
-      }
-      .text {
-        font-family: 'SentyTEA';
-        width: 50%;
+    .my-modal {
+      form {
         padding: 1em;
-        @media all and (max-width: $phone-max-portrait-width) {
-          width: 100%;
-        }
-        h1 {
-          font-size: $fontsize;
-        }
-        h2 {
-          font-size: $fontsize/3;
-          text-indent: 2em;
+        .input {
+          margin: 0.5em 0;
+          label {
+            margin-top: 0.3em;
+          }
         }
       }
-    }
 
-    #cheap {
-      background-color: transparent;
-      .img {
-        background: {
-          image: url("/static/img/homepage/pig-20180912-175737.png");
+      .footer {
+        button {
+          margin-right: 1em;
         }
       }
-    }
-    #stable {
-      background-color: $color-primary-1;
-      .img {
-        background: {
-          image: url("/static/img/homepage/7f69ac0def40cb490eb0f6d61af35df6-min.png");
-        }
-      }
-    }
-    #safe {
-      background-color: transparent;
-      .img {
-        background: {
-          image: url("/static/img/homepage/fcebb317d1e0af023b624dff11befbad-min.png");
-        }
-      }
-    }
-    #unlimit {
-      background-color: $color-primary-1;
-      .img {
-        background: {
-          image: url("/static/img/homepage/b6e421a3b5227b90732d15dbb0351709.png");
-        }
-      }
-    }
 
-    #homepage_foot {
-      padding: 3em;
-      height: auto;
-      background: {
-        image: url("/static/img/homepage/1be9da1dec13c71ee533f2bf739f1216.jpg");
-        size: cover;
-      }
-      font-family: 'HanyiSentyChalk';
-    }
-
-    .fa-arrow-up {
-      position: fixed;
-      font-size: 2em;
-      bottom: 1em;
-      right: 1em;
-      color:$info;
-      padding: 0.2em;
-      border: {
-        style: solid;
-        width: 1px;
-        color: $info;
-        radius: 0.2em;
-      }
     }
 
   }

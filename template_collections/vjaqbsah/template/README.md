@@ -36,4 +36,4 @@ npm test
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 #ADD
-这是一个 vue+jquery+axios+qs+bootstrap4+sass+animate+hover 脚手架
+这是一个 vue+jquery+axios+qs+bootstrap-vue(bootstrap4)+sass+animate+hover 脚手架

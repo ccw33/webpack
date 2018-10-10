@@ -51,16 +51,28 @@
     data() {
       return {
         lans: [
-          // {
-          //   'lan': '',
-          //   'isActive': true,
-          //   'is_auto': false,
-          //   'ip': '',
-          //   'subnet_mask': '',
-          //   'gateway': '',
-          //   'dns': '',
-          //   'mac': ''
-          // },
+          {
+            'lan': '11111',
+            'isActive': true,
+            'is_auto': false,
+            'id': '11111',
+            'ip': '11111',
+            'subnet_mask': '11111',
+            'gateway': '11111',
+            'dns': '11111',
+            'mac': '11111'
+          },
+          {
+            'lan': '22222',
+            'id': '22222',
+            'isActive': true,
+            'is_auto': false,
+            'ip': '22222',
+            'subnet_mask': '22222',
+            'gateway': '22222',
+            'dns': '22222',
+            'mac': '22222'
+          },
         ],
         alert: {
           success: {
@@ -90,14 +102,14 @@
       //     vm.lan_data = vm.lans[0];
       //   });
 
-      vm.$ajax.get(`${vm.host}/get_lans`)
-        .then(resp => {
-          vm.lans = resp.data;
-          vm.$store.commit('initial_old_data', vm.utils.copy(vm.lans));
-        }).catch(error => {
-        console.error(`SERVER----------:${error.response.data.content}`);
-        vm.alert.fail.is_show = true;
-      });
+      // vm.$ajax.get(`${vm.host}/get_lans`)
+      //   .then(resp => {
+      //     vm.lans = resp.data;
+      //     vm.$store.commit('initial_old_data', vm.utils.copy(vm.lans));
+      //   }).catch(error => {
+      //   console.error(`SERVER----------:${error.response.data.content}`);
+      //   vm.alert.fail.is_show = true;
+      // });
     },
   }
 </script>

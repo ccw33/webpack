@@ -1,6 +1,6 @@
 <template>
   <div class="my-container w-100 d-inline-flex flex-column justify-content-center align-items-center">
-    <h2 class="title">创建\{{ conf.logo_name }}账号</h2>
+    <h2 class="title">创建{{ conf.logo_name }}账号</h2>
     <form class="d-inline-flex flex-column justify-content-center align-items-center">
       <div id="account" class="form-group">
         <label>用户名：</label>
@@ -9,7 +9,7 @@
                placeholder="请输入用户名" v-model="form.account.val"
                required>
         <div class="invalid-feedback">
-          \{{ form.account.help_text }}
+          {{ form.account.help_text }}
         </div>
       </div>
       <div id="password" class="form-group">
@@ -19,7 +19,7 @@
                placeholder="请输入6位以上包含英文字符与数字的密码" v-model="form.password.val"
                required>
         <div class="invalid-feedback">
-          \{{ form.password.help_text }}
+          {{ form.password.help_text }}
         </div>
       </div>
       <div id="re_password" class="form-group">
@@ -29,7 +29,7 @@
                placeholder="请重新输入密码" v-model="form.re_password.val"
                required>
         <div class="invalid-feedback">
-          \{{ form.re_password.help_text }}
+          {{ form.re_password.help_text }}
         </div>
       </div>
       <div id="email" class="form-group">
@@ -39,7 +39,7 @@
                placeholder="请输入邮箱" v-model="form.email.val"
                required>
         <div class="invalid-feedback">
-          \{{ form.email.help_text }}
+          {{ form.email.help_text }}
         </div>
       </div>
     </form>

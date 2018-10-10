@@ -1,5 +1,5 @@
 <template>
-  <div class="logo shadow-lg hvr-bounce-to-right" @click="$router.push('/')">\{{ conf.logo_name }}</div>
+  <div class="logo shadow-lg hvr-bounce-to-right" @click="$router.push('/')">{{ conf.logo_name }}</div>
 </template>
 
 <script>

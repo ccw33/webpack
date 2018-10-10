@@ -44,7 +44,38 @@ export default {
   },
 
   //页面缓慢移动到指定位置
-  slowly_scroll_to(selector,time=800){
-    $('html,body').animate({scrollTop:$(selector).offset().top},time)
-  }
+  slowly_scroll_to(selector, time = 800) {
+    $('html,body').animate({scrollTop: $(selector).offset().top}, time)
+  },
+
+  get_system_type() {
+    let ua = navigator.userAgent;
+    if (ua.match('Windows'))
+      return 'windows'
+    if (ua.match('Linux'))
+      return 'linux'
+    if (ua.match('iPhone'))
+      return 'iphone'
+    if (ua.match('Mac'))
+      return 'ios'
+    if (ua.match('Android'))
+      return 'android'
+  },
+
+
+  //---------------项目特有-----------------
+  get_system_typenum() {
+    let ua = navigator.userAgent;
+    if (ua.match('Windows'))
+      return 3
+    if (ua.match('Linux'))
+      return 2
+    if (ua.match('iPhone') || ua.match('Mac'))
+      return 'iphone'
+    if (ua.match('Mac'))
+      return 4
+    if (ua.match('Android'))
+      return 5
+  },
+
 }

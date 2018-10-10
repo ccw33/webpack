@@ -1,60 +1,53 @@
 <template>
-  <div class="my-container w-100 d-inline-flex flex-column justify-content-center align-items-center">
-    <h2 class="title">登录{{ conf.logo_name }}</h2>
-    <div id="selete_login_type" class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-primary active" @click="form.account.type='account'">
-        <input type="radio"> 账号
-      </label>
-      <label class="btn btn-primary" @click="form.account.type='email'">
-        <input type="radio"> 邮箱
-      </label>
-      <label class="btn btn-primary" @click="form.account.type='wechat'">
-        <input type="radio"> 微信
-      </label>
-    </div>
-    <form class="d-inline-flex flex-column justify-content-center align-items-center">
-      <div id="account" class="form-group">
-        <label>{{ account_type }}：</label>
-        <input type="text" class="form-control"
+  <div class="my-container w-100 h-100 animated bounceInDown">
+    <div class="logo"></div>
+    <header class="w-100  mt-5">
+      <h1 class="text-center">云桌面用户登录</h1>
+    </header>
+
+    <form class="h-50 form ml-auto mr-auto">
+      <div class="input w-100">
+        <input type="text" class="form-control w-100" placeholder="输入用户名"
                :class="{'is-invalid':form.account.is_invalid}"
-               :placeholder="'请输入'+account_type" v-model="form.account.val"
-               required>
+               v-model="form.account.val">
+        <div class="account"></div>
         <div class="invalid-feedback">
-          {{ form.account.help_text }}
+          {{form.account.help_text}}
         </div>
       </div>
-      <div id="password" class="form-group">
-        <label>密码：</label>
-        <input type="password" class="form-control"
+      <div class="input w-100">
+        <input type="password" class="form-control w-100" placeholder="输入密码"
                :class="{'is-invalid':form.password.is_invalid}"
-               placeholder="请输入密码" v-model="form.password.val"
-               required>
+               v-model="form.password.val">
+        <div class="password"></div>
         <div class="invalid-feedback">
-          {{ form.password.help_text }}
+          {{form.password.help_text}}
         </div>
       </div>
-    </form>
-    <button id="submit" type="button" class="btn-info">登录</button>
-    <div id="other_option" class="d-inline-flex flex-row justify-content-between align-items-baseline">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="is_remember_me">
-        <label class="form-check-label" for="is_remember_me">
-          记住我
-        </label>
+      <div class="input w-100" v-if="form.dynamicPass.is_use">
+        <input type="text" class="form-control w-100" placeholder="输入动态密码"
+               :class="{'is-invalid':form.dynamicPass.is_invalid}"
+               v-model="form.dynamicPass.val">
+        <div class="password"></div>
+        <div class="invalid-feedback">
+          {{form.dynamicPass.help_text}}
+        </div>
       </div>
-      <a href="#" class="badge badge-warning">忘记密码</a>
-    </div>
+      <button type="button" class="btn btn-primary w-100" @click="submit">登录</button>
+    </form>
+    <footer class="w-100">
+      <copy_right class="text-center"></copy_right>
+    </footer>
   </div>
 </template>
 
 <script>
 
-  // $('.carousel').carousel({
-  //   pause:true,
-  // });
+  import copy_right from '@/common/copy_right';
+
   export default {
     name: 'Login',
-    components: {},
+    components: {copy_right},
     data() {
       return {
         form: {
@@ -62,44 +55,99 @@
             val: '',
             type: 'account',
             is_invalid: false,
-            help_text: '不存在此账号',
+            help_text: '账号不能为空',
           },
           password: {
             val: '',
             is_invalid: false,
-            help_text: '密码错误',
-          }
-        }
+            help_text: '密码不能为空',
+          },
+          dynamicPass: {
+            is_use: false,
+            val: '',
+            is_invalid: false,
+            help_text: '动态密码不能为空',
+          },
+        },
+
       }
     },
-    computed: {
-      account_type() {
+    computed: {},
+    methods: {
+      submit() {
         const vm = this;
-        if (vm.form.account.type == 'account')
-          return '账号'
-        if (vm.form.account.type == 'email')
-          return '邮箱'
-        if (vm.form.account.type == 'wechat')
-          return '微信'
+        for (let key in vm.form) {
+          vm.form[key].is_invalid = false;
+        }
+        if (!vm.form.account.val || !vm.form.password.val) {
+          if (!vm.form.account.val) {
+            vm.form.account.is_invalid = true;
+          }
+          if (!vm.form.password.val) {
+            vm.form.password.is_invalid = true;
+          }
+          if (!vm.form.dynamicPass.val) {
+            vm.form.dynamicPass.is_invalid = true;
+          }
+          return
+        }
+        vm.$ajax.get(`/api/account/login`, {
+          params: {
+            account: vm.form.account.val,
+            password: vm.form.password.val,
+            dynamicPass: vm.form.dynamicPass.val,
+            systemType: vm.utils.get_system_typenum(),
+          }
+        })
+          .then(resp => {
+            vm.conf.account = vm.form.account.val;
+            vm.$router.push('/');
+          }).catch(error => {
+          if (error.response)
+            vm.$root.alert.fail.message = error.response.data.content;
+          vm.$root.alert.fail.is_show = true;
+        }).finally(() => {
+        });
+
+        // vm.$ajax.get(`/api/common_api/api.login`, {
+        //   params: {
+        //     account: vm.form.account.val,
+        //     password: vm.form.password.val,
+        //     systemType: system_type,
+        //   }
+        // })
+        //   .then(resp => {
+        //     if (resp.data.errorinfo == 'success') {
+        //       debugger;
+        //       vm.$router.push('/');
+        //     } else {
+        //       vm.$root.alert.fail.message = resp.data.errorinfo;
+        //       vm.$root.alert.fail.is_show = true;
+        //     }
+        //
+        //   }).catch(error => {
+        //   vm.$root.alert.fail.is_show = true;
+        // }).finally(() => {
+        //   // vm.lan_data = vm.lans[0];
+        // });
       }
     },
-    methods: {},
     beforeCreate() {
       let vm = this;
-      // // $.get(`${vm.host}/get_lans`,
-      // //   function (resp) {
-      // //     vm.lans = resp;
-      // //     vm.lan_data = vm.lans[0];
-      // //   });
       //
-      // vm.$ajax.get(`${vm.host}/get_lans`)
-      //   .then(resp => {
-      //     vm.lans = resp.data;
-      //   }).catch(error => {
-      //   $('.alert-danger').show();
-      // }).finally(() => {
-      //   vm.lan_data = vm.lans[0];
-      // });
+      vm.$ajax.get('/api/account/is_dynamic', {})
+        .then(resp => {
+          if (resp.data.content == 'true') {
+            vm.form.dynamicPass.is_use = true;
+          }
+          else {
+            vm.form.dynamicPass.is_use = false;
+          }
+        }).catch(error => {
+        console.log(error.response.data)
+        vm.$root.alert.fail.message = error.response.data.content;
+        vm.$root.alert.fail.is_show = true;
+      })
     },
   }
 </script>
@@ -109,83 +157,71 @@
   @import "../../assets/sass/base";
 
   .my-container {
-    font-family: 'HanyiSentyChalk';
-    font-size: 1.3rem;
-    @media all and (max-width: $phone-max-portrait-width) {
-      font-size: 1rem;
+    font-size: 1rem;
+    padding: 1em;
+    background: {
+      image: url("/static/img/HomePage/bg.jpg");
+      position: center;
+      size: cover;
     }
-    .title {
-      margin: 1.5em 0;
-    }
-    #selete_login_type {
-      margin-bottom: 1em;
-      padding-left: 2em;
-      label {
-        width: 11em;
+    .logo {
+      width: 8em;
+      height: 4em;
+      padding-top: 1em;
+      margin-left: 1em;
+      background: {
+        image: url("/static/img/logo/new_logo.png");
+        position: center;
+        repeat: no-repeat;
+        size: contain;
       }
-      @media all and (max-width: $phone-max-portrait-width) {
-        padding-left: 1em;
-        label {
-          width: 6em;
-        }
+    }
+    header {
+      height: 15%;
+      h1 {
+        color: $color-withe-gray;
       }
     }
     form {
-      label, input {
-        margin-right: 0.5em;
-      }
-      label {
-        width: 5em;
-        text-align: right;
-      }
-      input {
-        width: 25em;
-        @media all and (max-width: $phone-max-portrait-width) {
-          width: 15em;
+      width: 18em;
+      .input {
+        position: relative;
+        margin-top: 1em;
+        input {
+          padding-left: 1.8em;
+        }
+        div.account, div.password {
+          position: absolute;
+          top: 0;
+          left: 0;
+          margin-left: 0.3em;
+          width: 1.5em;
+          height: 2.3em;
+          background: {
+            position: center;
+            repeat: no-repeat;
+            size: contain;
+          }
+        }
+        div.account {
+          background: {
+            image: url("/static/img/icon/icon_username.png");
+          }
+        }
+        div.password {
+          background: {
+            image: url("/static/img/icon/icon_password.png");
+          }
         }
       }
-      .invalid-feedback {
-        width: 10em;
-      }
-      .form-group{
-        @extend .d-inline-flex;
-        @extend .flex-row;
-        @extend .justify-content-center;
-        @extend .align-items-baseline;
-        @extend .flex-wrap;
-        margin: 0.3em 0;
-        .invalid-feedback{
-          font-size: 0.6em;
-        }
+      button {
+        margin-top: 3em;
       }
     }
-
-    #submit {
-      width: 25em;
-      margin-left: 2em;
-      @media all and (max-width: $phone-max-portrait-width) {
-        margin-left: 1em;
-        width: 19em;
-      }
-      margin-top: 1em;
-      -webkit-border-radius: 0.2em;
-      -moz-border-radius: 0.2em;
-      border-radius: 0.2em;
+    footer {
+      position: absolute;
+      bottom: 2em;
     }
-
-    #other_option {
-      margin: 0.5em;
-      width: 24em;
-      margin-left: 2em;
-      @media all and (max-width: $phone-max-portrait-width) {
-        margin-left: 1em;
-        width: 19em;
-      }
-      .form-check {
-        font-size: 0.8em;
-      }
-    }
-
   }
 
 
