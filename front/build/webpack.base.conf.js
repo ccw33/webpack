@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+require("babel-polyfill"); //es5
 const webpack = require('webpack')
 
 function resolve(dir) {
@@ -13,7 +14,7 @@ function resolve(dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: ['babel-polyfill', './src/main.js']
   },
   plugins: [
     new webpack.ProvidePlugin({

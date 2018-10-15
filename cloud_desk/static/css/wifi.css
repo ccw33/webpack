@@ -108,16 +108,16 @@
 }
 
 /*demo样式*/
-.box {
-  width: 400px;
-  margin: 0 auto;
-}
+/*.box {*/
+  /*width: 400px;*/
+  /*margin: 0 auto;*/
+/*}*/
 
-.wifi-icon {
-  transform: scale(4);
-  margin: 40px;
-}
+/*.wifi-icon {*/
+  /*transform: scale(4);*/
+  /*margin: 40px;*/
+/*}*/
 
-*, *::after, *::before {
-  box-sizing: border-box;
-}
+/**, *::after, *::before {*/
+  /*box-sizing: border-box;*/
+/*}*/

@@ -1,52 +1,63 @@
 <template>
-  <div class=" w-100 inline-column-center-center p-4">
-    <section class="w-75 inline-row-start-end">
-      <i class="fa fa-wifi fa-5x"></i>
-      <div class="text">wifi网络 {{wifi.name}} 需要{{wifi.key_type}}密码</div>
-    </section>
+  <div class="container-fluid">
+    <header class="w-100 position-relative">
+      <h6 class="position-absolute">连接网络</h6>
+      <div class="text-muted position-absolute"
+           @click="$emit('cancel')">×
+      </div>
+    </header>
+    <article>
+      <div class="title">
+        <div class="icon"></div>
+        <div class="text">wifi网络 {{wifi.name}} 需要{{wifi.key_type}}密码</div>
+      </div>
+      <form action="">
+        <section class="password">
+          <label for="password">密码：</label>
+          <input :type="password_type" class="form-control" id="password"
+                 placeholder="Password">
+        </section>
 
-    <section class="w-75 inline-row-start-baseline mt-3">
-      <label for="password" class="w-25">密码：</label>
-      <input :type="password_type" class="form-control w-75" id="password"
-             placeholder="Password">
-    </section>
-
-    <section class="w-75 inline-row-center-baseline justify-content-around mt-3 checkbox">
-      <label>
-        <input type="checkbox" v-model="pwd_is_show"> 显示密码
-      </label>
-      <label>
-        <input type="checkbox" v-model="wifi.remember_pwd"> 记住该网络
-      </label>
-    </section>
-    <section class="w-75 inline-row-center-baseline justify-content-around mt-3">
-      <button type="button" class="btn btn-default btn-xs"> 取消</button>
-      <button type="button" class="btn btn-primary btn-xs" @click="submit"> 加入</button>
-    </section>
+        <section class="checkboxs">
+          <label>
+            <input type="checkbox" v-model="pwd_is_show"> 显示密码
+          </label>
+          <label>
+            <input type="checkbox" v-model="wifi.remember_pwd"> 记住该网络
+          </label>
+        </section>
+      </form>
+    </article>
+    <footer>
+      <button type="button" class="btn btn-default btn-sm" @click="$emit('cancel')"> 取消</button>
+      <button type="button" class="btn btn-primary btn-sm" @click="submit"> 加入</button>
+    </footer>
   </div>
 </template>
 
 <script>
   import v_tab from '@/components/v_tab';
+  import utils from "../utils";
 
   export default {
     name: 'wifi_connect_win',
     components: {},
-    // prop: {
-    //   wifi: {
-    //     type: Object,
-    //     required: true,
-    //     validator: function (value) {
-    //       let template = {
-    //         name: '别连我dsfasefwagewt',
-    //         is_lock: true,
-    //         key_type: 'WPA2',
-    //         strength: 1,
-    //         password: ''};
-    //       return utils.validate_template(value,template,'wifi');
-    //     }
-    //   },
-    // },
+    prop: {
+      prop_wifi: {
+        type: Object,
+        required: true,
+        validator: function (value) {
+          let template = {
+            name: '别连我dsfasefwagewt',
+            is_lock: true,
+            key_type: 'WPA2',
+            strength: 1,
+            password: ''
+          };
+          return utils.validate_template(value, template, 'wifi');
+        }
+      },
+    },
     data() {
       return {
         wifi: {
@@ -81,47 +92,21 @@
         const vm = this;
         vm.wifi.password = $('#password').val();
         vm.$ajax.post(
-          `${vm.host}/connect_wifi`,
+          `${vm.host}/api/operation_system/connect_wifi`,
           vm.$qs.stringify(vm.wifi),
         ).then(resp => {
+          vm.$root.alert.success.message = `连接wifi${vm.wifi.name}成功`;
           vm.$root.alert.success.is_show = true;
+          vm.$emit('cancel');
         }).catch(error => {
-          console.error(`SERVER----------:${error.response.data.content}`);
+          vm.$root.alert.fail.message = `连接wifi${vm.wifi.name}失败`;
           vm.$root.alert.fail.is_show = true;
         })
       }
     },
     mounted() {
       let vm = this;
-      // // $.get(`${vm.host}/get_lans`,
-      // //   function (resp) {
-      // //     vm.lans = resp;
-      // //     vm.lan_data = vm.lans[0];
-      // //   });
-      //
-      // vm.$ajax.get(`${vm.host}/get_lans`)
-      //   .then(resp => {
-      //     vm.lans = resp.data;
-      //   }).catch(error => {
-      //   $('.alert-danger').show();
-      // }).finally(() => {
-      //   vm.lan_data = vm.lans[0];
-      // });
-      let kv_list = window.location.search.replace('?', '').split('&');
-      for (let index in kv_list) {
-        let k = kv_list[index].split('=')[0];
-        let v = kv_list[index].split('=')[1];
-        if (k == 'is_lock' || k == 'strength' || k == 'remember_pwd') {
-          v = JSON.parse(v);
-        }
-        if (k == 'name') {
-          v = decodeURI(v)
-        }
-        vm.wifi[k] = v;
-      }
-      if (vm.wifi.remember_pwd) {
-        $('#password').val(vm.wifi.password);
-      }
+      vm.wifi = vm.$attrs.prop_wifi;
     },
   }
 </script>
@@ -131,57 +116,97 @@
   @import "../assets/sass/base";
 
   .container-fluid {
-    /*margin-left: -10%;
-    margin-top: 1rem;
-    section {
-      margin-top: 1rem;
-    }
-    section:nth-of-type(1) {
-      @extend .d-inline-flex;
-      @extend .align-items-baseline;
-      .fa-wifi {
-        width: 30%;
-        text-align: right;
-      }
-      .text {
-        width: 70%;
-        font-weight: bold;
-      }
-    }
+    font-size: 1rem;
+    padding: 0 0 1em 0;
+    width: 500px;
+    /*height: 290px;*/
+    margin-top: 15%;
+    background: $color-withe;
+    border-radius: 0.5em;
 
-    section:nth-of-type(2) {
-      @extend .d-inline-flex;
-      @extend .align-items-baseline;
-      margin-top: 2rem;
+    header {
+      height: 46px;
+      h6 {
+        line-height: 46px;
+        top: 0;
+        left: 1rem;
+      }
+      div {
+        line-height: 46px;
+        top: 0;
+        right: 1rem;
+        font-size: 2rem;
+        color: $primary;
+        &:hover {
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+    }
+    article {
+      .title {
+        width: 100%;
+        position: relative;
+        height: 70px;
+        .icon {
+          position: absolute;
+          left: 72px;
+          top: 24px;
+          width: 46px;
+          height: 46px;
+          background: {
+            position: center;
+            repeat: no-repeat;
+            size: contain;
+            image: url("/static/img/later-images-01/yzm_41.png");
+          }
+        }
+        .text {
+          position: absolute;
+          top: 40px;
+          left: 128px;
+        }
+      }
+
+      form {
+        .password {
+          position: relative;
+          width: 100%;
+          height: 28px;
+          margin-top: 22px;
+          margin-bottom: 14px;
+          label {
+            position: absolute;
+            top: 2px;
+            right: 330px;
+          }
+          input {
+            position: absolute;
+            width: 230px;
+            height: 28px;
+            top: 0;
+            right: 100px;
+          }
+        }
+        .checkboxs {
+          width: 100%;
+          padding-left: 170px;
+          text-align: left;
+          label {
+            margin-right: 1em;
+          }
+        }
+      }
+
+    }
+    footer {
+      margin-top: 2em;
       width: 100%;
-      label {
-        font-weight: bold;
-        text-align: right;
-        margin-left: 10%;
-        margin-right: 1rem;
-        width: 20%;
-      }
-      input {
-        width: 55%;
-      }
-    }
-    section:nth-of-type(3) {
-      @extend .d-inline-flex;
-      @extend .flex-column;
-      margin-left: 1rem;
-      label {
-        margin-left: 30%;
-        font-weight: bold;
-      }
-    }
-    section:nth-of-type(4) {
-      margin-left: 50%;
+      text-align: right;
       button {
-        width: 6rem;
-        margin-right: 1rem;
+        margin-right: 20px;
       }
-    }*/
-
+    }
   }
 
 </style>

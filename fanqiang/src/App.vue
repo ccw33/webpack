@@ -1,12 +1,20 @@
 <template>
   <div id="app">
+        <v_alert :c_alert="$root.alert" @hide_success="$root.alert.success.is_show=false"
+             @hide_fail="$root.alert.fail.is_show=false"></v_alert>
+    <loading :is_loading="$root.is_loading"></loading>
     <router-view/>
   </div>
 </template>
 
 <script>
+  import loading from '@/common/loading';
+  import v_alert from '@/common/v_alert';
+
   export default {
-    name: 'App'
+    name: 'App',
+    components: {loading, v_alert}
+
   }
 </script>
 

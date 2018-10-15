@@ -2,23 +2,27 @@
   <div class="alert-box">
     <transition enter-active-class="animated bounceInRight"
                 leave-active-class="animated bounceOutRight">
-      <div v-show="alert.success.is_show" class="alert alert-success alert-dismissible" role="alert">
+      <div v-show="c_alert.success.is_show" class="alert alert-success alert-dismissible" role="alert">
         <button type="button" class="close" aria-label="Close"><span @click="$emit('hide_success')"
                                                                      aria-hidden="true">&times;</span></button>
         <strong>Success!</strong>
+        <hr>
+        <p>{{c_alert.success.message}}</p>
       </div>
     </transition>
 
     <transition enter-active-class="animated bounceInRight"
                 leave-active-class="animated bounceOutRight">
-      <div v-show="alert.fail.is_show" class="alert alert-danger alert-dismissible" role="alert">
+      <div v-show="c_alert.fail.is_show" class="alert alert-danger alert-dismissible p-2" role="alert">
         <button type="button" class="close" aria-label="Close"><span @click="$emit('hide_fail')"
                                                                      aria-hidden="true">&times;</span></button>
         <strong>Warning!</strong>
+        <hr>
+        <p>{{c_alert.fail.message}}</p>
       </div>
     </transition>
-
   </div>
+
 </template>
 
 <script>
@@ -27,7 +31,7 @@
   export default {
     name: "v_alert",
     props: {
-      alert: {
+      c_alert: {
         type: Object,
         required: true,
         validator(value) {
@@ -41,21 +45,21 @@
               is_show: false,
             }
           };
-          return utils.validate_template(value,template,'alert')
+          return utils.validate_template(value, template, 'alert')
         }
       },
     },
     data() {
       return {
-        success: this.alert.success,
-        fail: this.alert.fail
+        success: this.c_alert.success,
+        fail: this.c_alert.fail
       }
     }
 
   }
 </script>
 
-<style scoped lang="scss" type="text/css">
+<style scoped lang="scss">
   .alert-box {
     position: absolute;
     right: 3rem;

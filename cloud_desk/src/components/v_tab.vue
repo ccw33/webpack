@@ -1,84 +1,82 @@
 <template>
   <div class="w-100 inline-column-center-center flex-nowrap">
-    <form class="w-100 container-fluid p-4">
-      <div class="row w-100 d-inline-flex justify-content-start flex-row align-items-center flex-nowrap"
-           style="margin-bottom: 1rem;">
-        <div class="ml-3 mr-3">
-          <img src="../assets/2173-128.png" alt="" style="width: 3rem; height: 3rem;">
+    <form class="w-100">
+      <header>
+        <div class="img_text">
+          <img src="../assets/2173-128.png" alt="" style="width: 1em; height:1em;">
+          <span>{{lan.id}}</span>
         </div>
-        <div style="line-height: 3rem">
-          {{lan.id}}
+        <div class="text text-left">
+          MAC：{{lan.mac}}
         </div>
-      </div>
+      </header>
       <!--是否自动获得ip-->
-      <div class="form-group align-self-start m-0 mt-2">
-        <div>
+      <div class="form-group is_auto">
+        <div class="w-100 text-left">
           <div class="radio">
             <label>
-              <input type="radio" name="optionsRadios" id="ip_auto" v-model="lan.is_auto" value="true"
-                     @click="auto">
+              <input type="radio" name="optionsRadios" :id="this.lan.lan+'_ip_auto'" v-model="lan.is_auto"
+                     :value="true">
               自动获取IP地址
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="optionsRadios" id="ip_manual" v-model="lan.is_auto" value="false" checked
-                     @click="not_auto">
+              <input type="radio" name="optionsRadios" :id="this.lan.lan+'_ip_manual'" v-model="lan.is_auto"
+                     :value="false" checked>
               使用下面的IP地址
             </label>
           </div>
         </div>
       </div>
-      <fieldset :id="fieldset_id" class="container-fluid m-0">
-        <!--ip-->
-        <div class="form-group row">
-          <label for="ip" class="col-2 control-label">IP地址</label>
-          <div class="col-9">
-            <input type="text" class="form-control" id="ip" name="ip" :placeholder="lan.ip" v-model="lan.ip">
-            <span class="help-block">IP样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
-          </div>
+      <!--ip-->
+      <div class="form-group input-form-group">
+        <label :for="this.lan.lan+'_ip'" class=" control-label">IP地址：</label>
+        <div class="input">
+          <input type="text" class="form-control" :id="this.lan.lan+'_ip'"
+                 name="ip" :placeholder="lan.ip" v-model="lan.ip" :disabled="this.lan.is_auto">
         </div>
-        <!--subnet_mask-->
-        <div class="form-group row">
-          <label for="subnet_mask" class="col-2 control-label">子网掩码</label>
-          <div class="col-9">
-            <input type="text" class="form-control" id="subnet_mask" name="subnet_mask"
-                   :placeholder="lan.subnet_mask"
-                   v-model="lan.subnet_mask">
-            <span class="help-block">子网掩码样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
+        <div class="help-block">IP样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</div>
+      </div>
+      <!--subnet_mask-->
+      <div class="form-group input-form-group">
+        <label :for="this.lan.lan+'_subnet_mask'" class=" control-label">子网掩码：</label>
+        <div class="input">
+          <input type="text" class="form-control" :id="this.lan.lan+'_subnet_mask'" name="subnet_mask"
+                 :placeholder="lan.subnet_mask"
+                 v-model="lan.subnet_mask"
+                 :disabled="this.lan.is_auto">
+        </div>
+        <div class="help-block">子网掩码样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</div>
+      </div>
 
-          </div>
+      <!--gateway-->
+      <div class="form-group input-form-group">
+        <label :for="this.lan.lan+'_gateway'" class=" control-label">网关：</label>
+        <div class="input">
+          <input type="text" class="form-control" :id="this.lan.lan+'_gateway'" name="gateway"
+                 :placeholder="lan.gateway"
+                 v-model="lan.gateway"
+                 :disabled="this.lan.is_auto">
         </div>
+        <div class="help-block">网关样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</div>
+      </div>
 
-        <!--gateway-->
-        <div class="form-group row">
-          <label for="gateway" class="col-2 control-label">网关</label>
-          <div class="col-9">
-            <input type="text" class="form-control" id="gateway" name="gateway" :placeholder="lan.gateway"
-                   v-model="lan.gateway">
-            <span class="help-block">网关样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
-          </div>
+      <!--dns-->
+      <div class="form-group input-form-group">
+        <label :for="this.lan.lan+'_dns'" class=" control-label">DNS：</label>
+        <div class="input">
+          <input type="text" class="form-control" :id="this.lan.lan+'_dns'" name="dns" :placeholder="lan.dns"
+                 v-model="lan.dns"
+                 :disabled="this.lan.is_auto">
         </div>
-
-        <!--dns-->
-        <div class="form-group row">
-          <label for="dns" class="col-2 control-label">DNS</label>
-          <div class="col-9">
-            <input type="text" class="form-control" id="dns" name="dns" :placeholder="lan.dns"
-                   v-model="lan.dns">
-            <span class="help-block ">dns样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</span>
-          </div>
-        </div>
-      </fieldset>
+        <div class="help-block ">dns样式必须为“xxx.xxx.xxx.xxx”,且xxx在0-255之间</div>
+      </div>
 
 
-      <div class="form-group row mt-4">
-        <div class="col text-center">
-          <input type="button" class="btn btn-primary" value="保存" @click="submit()"/>
-        </div>
-        <div class="col text-center" style="margin-left: 2rem;">
-          <input type="button" class="btn btn-danger" value="重置" @click="reset()"/>
-        </div>
+      <div class="form-group btn-form-group">
+        <input type="button" class="btn btn-primary btn-sm" value="保存" @click="submit()"/>
+        <input type="button" class="btn btn-default btn-sm" value="重置" @click="reset()"/>
       </div>
     </form>
   </div>
@@ -94,29 +92,29 @@
       // if (key == 'dns') {
       //   if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
       //     debugger
-      //     $(`#${key}`).parents('.form-group').addClass('has-error');
-      //     $(`#${key}`).parents('.form-group').find('.help-block').show();
+      //     $(`#${vm.lan.lan+'_'+key}`).parents('.form-group').addClass('has-error');
+      //     $(`#${vm.lan.lan+'_'+key}`).parents('.form-group').find('.help-block').show();
       //     is_ok = false;
       //   } else {
-      //     $(`#${key}`).parents('.form-group').removeClass('has-error');
-      //     $(`#${key}`).parents('.form-group').find('.help-block').hide();
+      //     $(`#${vm.lan.lan+'_'+key}`).parents('.form-group').removeClass('has-error');
+      //     $(`#${vm.lan.lan+'_'+key}`).parents('.form-group').find('.help-block').hide();
       //     times++;
       //   }
       // } else {
       if (val == '' || !(0 <= Number(val) && Number(val) <= 255)) {
-        $(`#${key}`).parents('.form-group').addClass('has-error');
-        $(`#${key}`).parents('.form-group').find('.help-block').show();
+        $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').addClass('has-error');
+        $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').find('.help-block').show();
         is_ok = false;
       } else {
-        $(`#${key}`).parents('.form-group').removeClass('has-error');
-        $(`#${key}`).parents('.form-group').find('.help-block').hide();
+        $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').removeClass('has-error');
+        $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').find('.help-block').hide();
         times++;
       }
       // }
     });
     if (times < 4) {
-      $(`#${key}`).parents('.form-group').addClass('has-error');
-      $(`#${key}`).parents('.form-group').find('.help-block').show();
+      $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').addClass('has-error');
+      $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').find('.help-block').show();
       is_ok = false
     }
 
@@ -179,19 +177,8 @@
       // lan() {
       //   return this.lan_data
       // }
-      fieldset_id() {
-        return `${this.lan.lan}_ip_fieldset`
-      }
     },
     methods: {
-      auto() {
-        $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'true'});
-        this.lan.is_auto = true;
-      },
-      not_auto() {
-        $(`#${this.lan.lan}_ip_fieldset`).removeAttr('disabled');
-        this.lan.is_auto = false;
-      },
       submit() {
         const vm = this;
         // 验证
@@ -205,12 +192,12 @@
             if (key == 'subnet_mask') {
               if (Number(vm.lan[key])) {
                 if (Number(vm.lan[key]) >= 0 && Number(vm.lan[key]) <= 32) {
-                  $(`#${key}`).parents('.form-group').removeClass('has-error');
-                  $(`#${key}`).parents('.form-group').find('.help-block').hide();
+                  $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').removeClass('has-error');
+                  $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').find('.help-block').hide();
                 }
                 else {
-                  $(`#${key}`).parents('.form-group').addClass('has-error');
-                  $(`#${key}`).parents('.form-group').find('.help-block').show();
+                  $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').addClass('has-error');
+                  $(`#${vm.lan.lan + '_' + key}`).parents('.form-group').find('.help-block').show();
                 }
               } else {
                 is_ok = normal_validate(vm, key, times, is_ok)
@@ -232,22 +219,16 @@
           return
         }
         vm.$ajax.post(
-          `${vm.host}/save_lan`,
+          `${vm.host}/api/operation_system/save_lan`,
           vm.$qs.stringify(vm.lan),
         ).then(function (response) {
           vm.$root.alert.success.is_show = true;
         }).catch(function (error) {
-          console.error(`SERVER----------:${error.response.data.content}`);
           vm.$root.alert.fail.is_show = true;
         });
       },
       reset() {
         this.lan = {...this.old_data};
-        if (JSON.parse(this.lan.is_auto)) {
-          $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'disabled'});
-        } else {
-          $(`#${this.lan.lan}_ip_fieldset`).removeAttr('disabled');
-        }
       },
       clear() {
         this.lan = {};
@@ -258,11 +239,6 @@
     },
     mounted() {
       $('.help-block').hide();
-      if (JSON.parse(this.lan.is_auto)) {
-        $(`#${this.lan.lan}_ip_fieldset`).attr({'disabled': 'disabled'});
-      } else {
-        $(`#${this.lan.lan}_ip_fieldset`).removeAttr('disabled');
-      }
     }
   }
 </script>
@@ -271,19 +247,66 @@
 <style scoped lang="scss">
   @import "../assets/sass/base";
 
-  .form-group {
-    label {
-      text-align: right;
+  form {
+    font-size: 0.8rem;
+    padding: 10px;
+    header {
+      height: 50px;
+      width: 100%;
+      background-color: #f9f9f9;
+      .img_text {
+        text-align: left;
+        img {
+          display: inline-block;
+        }
+      }
+      .text {
+        font-family: '雅黑';
+        font-size: 12px;
+        line-height: 16px;
+      }
     }
   }
 
-  fieldset {
-    border-radius: 1rem;
-    padding: 2rem !important;
-    margin: 2rem !important;
-    border: 1px dashed #bce8f1 !important;
+  .is_auto {
+    margin: 15px 70px;
   }
-  .help-block{
+
+  .input-form-group {
+    margin: 0;
+    margin-bottom: 12px;
+    /*height: 28px;*/
+    position: relative;
+    label {
+      /*position: absolute;*/
+      /*top: 3px;*/
+      /*right: 330px;*/
+      width: 100px;
+      display: inline-block;
+      font-size: 1em;
+      text-align: right;
+    }
+    .input {
+      /*position: absolute;*/
+      /*top: 0;*/
+      /*right: 72px;*/
+      width: 250px;
+      display: inline-block;
+      input {
+        height: 28px;
+      }
+    }
+  }
+
+  .btn-form-group {
+    text-align: right;
+    .btn {
+      height: 28px;
+      margin: 0 0.5em;
+    }
+  }
+
+  .help-block {
     @extend .text-danger;
     font-size: 0.8em;
   }

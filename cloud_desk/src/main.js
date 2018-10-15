@@ -13,6 +13,7 @@ import qs from 'qs/dist/qs'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/js/bootstrap'
+// import '../static/css/wifi.css'
 
 import Promise from 'es6-promise/dist/es6-promise'
 import 'animate.css'
@@ -80,6 +81,9 @@ let vm = new Vue({
 
 //请求拦截
 vm.$ajax.interceptors.request.use(function (config) {
+  if (config.url.search('ServerSPICEConsole') != -1) {
+    return config;
+  }
   vm.$root.is_loading = true;
   return config;
 }, function (error) {
@@ -91,10 +95,24 @@ vm.$ajax.interceptors.request.use(function (config) {
 vm.$ajax.interceptors.response.use(
   response => {
     vm.$root.is_loading = false;
+    window.setTimeout(() => {
+      vm.$root.alert.success.is_show = false
+      vm.$root.alert.fail.is_show = false
+    }, 3000)
     return response;
   },
   error => {
     vm.$root.is_loading = false;
+    try {
+      debugger;
+      console.error(`SERVER----------:${error.response.data.content}`);
+    } catch (err) {
+      console.error('处理服务器错误出错'+err.message)
+    }
+    window.setTimeout(() => {
+      vm.$root.alert.success.is_show = false
+      vm.$root.alert.fail.is_show = false
+    }, 3000)
     if (error.response) {
       switch (error.response.status) {
         case 401:

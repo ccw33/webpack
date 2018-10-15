@@ -9,7 +9,8 @@
 </template>
 
 <script>
-  import utils from '../utils'
+  import utils from "../utils";
+
   export default {
     name: 'wifi_icon',
     components: {},
@@ -17,11 +18,11 @@
       wifi_data: {
         type: Object,
         required: true,
-        validator:function(value) {
+        validator: function (value) {
           let template = {
             is_lock: true,
             strength: 1,
-            is_connected:false,
+            is_connected: false,
           };
           return utils.validate_template(value, template, 'wifi_icon')
         }
@@ -38,22 +39,22 @@
       //   return this.wifi.is_lock ? 'strength-ready' : 'strength-no'
       // },
       strengthLevel() {
-        return this.wifi.strength>0?`strength-${this.wifi.strength}`:''
+        return this.wifi.strength > 0 ? `strength-${this.wifi.strength}` : ''
       },
-      is_connected(){
-        return this.wifi_data.is_connected?'strength-ready':'strength-no'
+      is_connected() {
+        return this.wifi_data.is_connected ? 'strength-ready' : 'strength-no'
       },
     },
     methods: {},
     beforeCreate() {
       let vm = this;
-      // // $.get(`${vm.host}/get_lans`,
+      // // $.get(`${vm.host}/api/operation_system/get_lans`,
       // //   function (resp) {
       // //     vm.lans = resp;
       // //     vm.lan_data = vm.lans[0];
       // //   });
       //
-      // vm.$ajax.get(`${vm.host}/get_lans`)
+      // vm.$ajax.get(`${vm.host}/api/operation_system/get_lans`)
       //   .then(resp => {
       //     vm.lans = resp.data;
       //   }).catch(error => {
@@ -67,7 +68,128 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  /*.wifi-icon {*/
-  /*transform: scale(0.8);*/
-  /*}*/
+  .strength-ready {
+    color: #26a69a;
+  }
+
+  /*已链接或曾连接过的颜色及信号强弱*/
+  .strength-no {
+    color: #37474f;
+  }
+
+  /*未链接的颜色*/
+  .wifi-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    float: left
+  }
+
+  .wifi-icon > span {
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .wifi-icon .wifi-1 {
+    width: 5px;
+    height: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1px;
+    background: currentcolor;
+  }
+
+  .wifi-icon .wifi-2, .wifi-icon .wifi-3, .wifi-icon .wifi-4 {
+    border: 2px solid;
+    border-color: currentcolor transparent transparent;
+  }
+
+  .wifi-icon .wifi-2 {
+    width: 12px;
+    height: 12px;
+    left: 4px;
+    bottom: -2px;
+  }
+
+  .wifi-icon .wifi-3 {
+    width: 20px;
+    height: 20px;
+    left: 0px;
+    bottom: -6px;
+  }
+
+  .wifi-icon .wifi-4 {
+    width: 28px;
+    height: 28px;
+    left: -4px;
+    bottom: -10px;
+  }
+
+  .wifi-icon > span:after {
+    content: "";
+    display: block;
+    position: absolute;
+  }
+
+  .wifi-icon .lock {
+    width: 6px;
+    height: 5px;
+    background: currentcolor;
+    display: block;
+    right: 0;
+    bottom: 1px;
+    border-radius: 0;
+  }
+
+  .wifi-icon .lock:after {
+    width: 4px;
+    height: 3px;
+    border: 1px solid;
+    border-radius: 100px 100px 0 0;
+    border-bottom: none;
+    left: 1px;
+    bottom: 100%;
+  }
+
+  .wifi-icon .key {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0 0 0 1px inset;
+    display: block;
+    right: 0;
+    bottom: 1px;
+  }
+
+  .wifi-icon .key:after {
+    width: 1px;
+    height: 1px;
+    background: currentcolor;
+    box-shadow: 0 -1px, 0 -2px, 0 -3px, 0 -4px, 1px -3px, 2px -3px;
+    bottom: 4px;
+    left: 2px;
+  }
+
+  .strength-1 .wifi-4, .strength-2 .wifi-4, .strength-2 .wifi-3, .strength-3 .wifi-4, .strength-3 .wifi-3, .strength-3 .wifi-2 {
+    border-color: #b0bec5 transparent transparent;
+  }
+
+  /*!*demo样式*!*/
+  .box {
+    width: 400px;
+    margin: 0 auto;
+  }
+
+  .wifi-icon {
+    transform: scale(1);
+    /*margin: 40px;*/
+  }
+
+  *, *::after, *::before {
+    box-sizing: border-box;
+  }
+
 </style>

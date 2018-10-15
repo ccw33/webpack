@@ -144,7 +144,6 @@
             vm.form.dynamicPass.is_use = false;
           }
         }).catch(error => {
-        console.log(error.response.data)
         vm.$root.alert.fail.message = error.response.data.content;
         vm.$root.alert.fail.is_show = true;
       })
