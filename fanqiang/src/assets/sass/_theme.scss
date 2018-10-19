@@ -75,21 +75,26 @@ $secondary: $color-primary-3;
 //$success: $color-secondary-2-1;
 $info:$color-secondary-2-0;
 
-@font-face {
-  font-family: 'SentyTEA';
-  src: url('/static/font-family/SentyTEA.ttf') format('truetype');
-  font-size: 1rem;
-}
 
-@font-face {
-  font-family: 'HanyiSentyDiary';
-  src: url('/static/font-family/HanyiSentyDiary.ttf') format('truetype');
-  font-size: 1rem;
-}
+$font-family-base: 幼圆;
+$font-family-base: 方正舒体;
+$font-family-base: 华文新魏;
 
-@font-face {
-  font-family: 'HanyiSentyChalk';
-  src: url('/static/font-family/HanyiSentyChalk 2018.ttf') format('truetype');
-  font-size: 1rem;
-}
+//@font-face {
+//  font-family: 'SentyTEA';
+//  src: url('/static/font-family/SentyTEA.ttf') format('truetype');
+//  font-size: 1rem;
+//}
+//
+//@font-face {
+//  font-family: 'HanyiSentyDiary';
+//  src: url('/static/font-family/HanyiSentyDiary.ttf') format('truetype');
+//  font-size: 1rem;
+//}
+//
+//@font-face {
+//  font-family: 'HanyiSentyChalk';
+//  src: url('/static/font-family/HanyiSentyChalk 2018.ttf') format('truetype');
+//  font-size: 1rem;
+//}
 
